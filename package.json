@@ -4,14 +4,13 @@
   "description": "A backend system for a movie reservation service. The service will allow users to sign up, log in, browse movies, reserve seats for specific showtimes, and manage their reservations. The system will feature user authentication, movie and showtime management, seat reservation functionality, and reporting on reservations.",
   "main": "index.js",
   "scripts": {
-    "test": "jest ",
-    "test:watch": "jest --watch",
+    "test": "vitest",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
-    "dev": "ts-node-dev --respawn --env-file=.env  --require tsconfig-paths/register src/server.ts ",
+    "dev": "ts-node-dev --respawn   --require tsconfig-paths/register src/server.ts ",
     "build": "tsc  && tsc-alias ",
-    "start": "node --env-file=.env  dist/server.js",
-    "seed": "ts-node-dev --respawn --env-file=.env --require tsconfig-paths/register src/seed.ts"
+    "start": "node   dist/server.js",
+    "seed": "ts-node-dev   --require tsconfig-paths/register src/seed.ts"
   },
   "repository": {
     "type": "git",
@@ -39,21 +38,21 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/express": "^5.0.6",
-    "@types/jest": "^30.0.0",
     "@types/node": "^25.5.2",
     "@types/pg": "^8.20.0",
     "@types/supertest": "^7.2.0",
     "eslint": "^10.0.3",
     "globals": "^17.4.0",
     "install": "^0.13.0",
-    "jest": "^30.2.0",
     "npm": "^11.12.1",
-    "prisma": "^7.6.0",
+    "prisma": "^6.19.3",
     "supertest": "^7.2.2",
-    "ts-jest": "^29.4.6",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.1"
+    "typescript-eslint": "^8.56.1",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.3",
+    "vitest-mock-extended": "^4.0.0"
   }
 }

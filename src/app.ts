@@ -14,3 +14,4 @@ app.get("/", async (req, res) => {
 
 export { app };
 export default app;
+export const add = (a: number, b: number): number => a + b;
