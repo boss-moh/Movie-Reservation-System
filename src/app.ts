@@ -1,13 +1,16 @@
-import routes from "@/routes";
+// import routes from "@/routes";
 import express from "express";
+import morgan from "morgan";
 
-import { errorHandler } from "@/middleware";
 
 const app = express();
 
+app.use(morgan("dev"));
 app.use(express.json());
-app.use(routes);
-app.use(errorHandler);
+
+app.get("/", async (req, res) => {
+  res.send("Welcome to the Movie API!");
+});
 
 export { app };
 export default app;

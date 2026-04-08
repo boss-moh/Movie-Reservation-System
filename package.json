@@ -1,7 +1,7 @@
 {
-  "name": "multi-container-application",
+  "name": "Movie-Reservation-System",
   "version": "1.0.0",
-  "description": "A multi-container application using Node.js and Express",
+  "description": "A backend system for a movie reservation service. The service will allow users to sign up, log in, browse movies, reserve seats for specific showtimes, and manage their reservations. The system will feature user authentication, movie and showtime management, seat reservation functionality, and reporting on reservations.",
   "main": "index.js",
   "scripts": {
     "test": "jest ",
@@ -15,34 +15,40 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/boss-moh/Multi-Container-Application.git"
+    "url": "git+https://github.com/boss-moh/Movie-Reservation-System.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/boss-moh/Multi-Container-Application/issues"
+    "url": "https://github.com/boss-moh/Movie-Reservation-System/issues"
   },
-  "homepage": "https://github.com/boss-moh/Multi-Container-Application#readme",
+  "homepage": "https://github.com/boss-moh/Movie-Reservation-System#readme",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.6.0",
+    "@prisma/client": "^7.6.0",
+    "@types/morgan": "^1.9.10",
+    "dotenv": "^17.4.1",
     "express": "^5.2.1",
     "express-validator": "^7.3.1",
-    "mongoose": "^9.2.1",
+    "morgan": "^1.10.1",
+    "pg": "^8.20.0",
     "tsc-alias": "^1.8.16"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
-    "@types/mongoose": "^5.11.96",
-    "@types/node": "^25.3.0",
+    "@types/node": "^25.5.2",
+    "@types/pg": "^8.20.0",
     "@types/supertest": "^7.2.0",
     "eslint": "^10.0.3",
     "globals": "^17.4.0",
+    "install": "^0.13.0",
     "jest": "^30.2.0",
-    "jiti": "^2.6.1",
-    "mongodb-memory-server": "^11.0.1",
+    "npm": "^11.12.1",
+    "prisma": "^7.6.0",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.6",
     "ts-node-dev": "^2.0.0",
