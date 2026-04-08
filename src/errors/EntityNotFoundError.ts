@@ -1,13 +1,11 @@
 import CustomError from "./CustomError";
 
-type ErrorCode = "ERR_NF" | "ERR_VALID";
 
-class EntityNotFoundError extends CustomError<ErrorCode> {
+class EntityNotFoundError extends CustomError {
   constructor(entity: string = "Entity") {
     super({
       message: `${entity} not found`,
       statusCode: 404,
-      code: "ERR_NF",
     });
   }
 }
