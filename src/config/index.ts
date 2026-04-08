@@ -1,11 +1,13 @@
-import { connectDB } from "./DB";
 
-const MONGO_URL = process.env.MONGO_URL || "";
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env' });
+
+const DATABASE_URL = process.env.DATABASE_URL || "";
 const PORT = process.env.PORT || "";
 
 console.log("Environment Variables Loaded:", {
-  MONGO_URL: MONGO_URL != "" ? "Loaded" : "Not Loaded",
+  DATABASE_URL: DATABASE_URL != "" ? "Loaded" : "Not Loaded",
   PORT: PORT != "" ? "Loaded" : "Not Loaded",
 });
 
-export { PORT, MONGO_URL, connectDB };
+export { PORT, DATABASE_URL };

@@ -1,0 +1,88 @@
+// prisma/schema.prisma
+// Define your database models
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  hashPassword String
+  keyForHashing String
+  role         Role          @default(USER)
+  reservations Reservation[]
+  createdAt    DateTime      @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Movie {
+  id              String     @id @default(uuid())
+  title           String
+  description     String?
+  durationMinutes Int
+  genre           String
+  posterUrl       String?
+  showtimes       Showtime[]
+}
+
+model Hall {
+  id          String     @id @default(uuid())
+  name        String
+  seatsNumber Int
+  seats       Seat[]
+  showtimes   Showtime[]
+}
+
+model Seat {
+  id            String         @id @default(uuid())
+  hallId        String
+  hall          Hall           @relation(fields: [hallId], references: [id])
+  row           String         // e.g., "A"
+  number        Int            // e.g., 5
+  type          String         @default("STANDARD") // e.g., "VIP", "STANDARD"
+  reservedSeats ReservedSeat[]
+}
+
+model Showtime {
+  id           String        @id @default(uuid())
+  startTime    DateTime
+  priceForSeat Float
+  movieId      String
+  movie        Movie         @relation(fields: [movieId], references: [id])
+  hallId       String
+  hall         Hall          @relation(fields: [hallId], references: [id])
+  reservations Reservation[]
+}
+
+model Reservation {
+  id            String         @id @default(uuid())
+  totalPrice    Float
+  status        String         @default("PENDING") // e.g., "ACTIVE", "CANCELLED"
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+  showtimeId    String
+  showtime      Showtime       @relation(fields: [showtimeId], references: [id])
+  reservedSeats ReservedSeat[]
+  createdAt     DateTime       @default(now())
+}
+
+// Explicit many-to-many join table for Reservations and Seats
+model ReservedSeat {
+  id            String      @id @default(uuid())
+  reservationId String
+  reservation   Reservation @relation(fields: [reservationId], references: [id])
+  seatId        String
+  seat          Seat        @relation(fields: [seatId], references: [id])
+
+  @@unique([reservationId, seatId]) // A seat can't be booked twice in the same reservation
+}
