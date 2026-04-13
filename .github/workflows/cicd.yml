@@ -82,7 +82,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
       - name: Run tests with coverage
-        run: npm test -- --coverage
+        run: npm test 
         # Tip: add "test": "jest" to your package.json scripts
 
       - name: Upload coverage report
