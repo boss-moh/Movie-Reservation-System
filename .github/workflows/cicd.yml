@@ -83,6 +83,12 @@ jobs:
 
       - name: Run tests with coverage
         run: npm test 
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PORT: ${{ secrets.PORT }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+          SALT_ROUNDS: ${{ secrets.SALT_ROUNDS }}
         # Tip: add "test": "jest" to your package.json scripts
 
       - name: Upload coverage report
