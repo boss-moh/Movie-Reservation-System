@@ -4,6 +4,6 @@ export const PATHS = {
     REGISTER: "/register",
     LOGIN: "/login",
     PROMOTE: "/promote",
-    REFERSH_TOKEN: "/refresh-token",
+    REFRESH_TOKEN: "/refresh-token",
   }
 } as const 

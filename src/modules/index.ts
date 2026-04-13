@@ -1,5 +1,5 @@
 import { PATHS } from "@/contants";
-import authRouter from "./auth/route";
+import {router as authRouter} from "@/modules/auth";
 
 import { Router } from "express";
 

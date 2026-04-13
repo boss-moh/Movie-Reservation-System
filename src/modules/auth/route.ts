@@ -33,9 +33,11 @@ router.put(
 );
 
 router.post(
-  PATHS.AUTH.REFERSH_TOKEN,
+  PATHS.AUTH.REFRESH_TOKEN,
   refreshTokenValidation,
   validator,
   refreshTokenController,
 );
+
+export { router  };
 export default router;
