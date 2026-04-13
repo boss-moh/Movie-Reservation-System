@@ -9,5 +9,10 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
-export type * from './models/Post'
+export type * from './models/Movie'
+export type * from './models/Hall'
+export type * from './models/Seat'
+export type * from './models/Showtime'
+export type * from './models/Reservation'
+export type * from './models/ReservedSeat'
 export type * from './commonInputTypes'

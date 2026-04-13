@@ -1,17 +1,16 @@
-// src/test/mocks/prisma.ts
-import { mockDeep, mockReset } from "vitest-mock-extended";
-import { PrismaClient } from "@generated/prisma/client";
-import { beforeEach, vi } from "vitest";
+// @/test (your singleton/mock setup file)
+import { mockDeep, mockReset } from 'vitest-mock-extended';
+import { beforeEach, vi } from 'vitest';
+import { PrismaClient } from '@generated/prisma/client';
 
-// create the mock
-export const prismaMock = mockDeep<PrismaClient>();
+const prisma = mockDeep<PrismaClient>();
 
-// replace the real prisma with the mock before each test
-vi.mock("./client.ts", () => ({
-  default: prismaMock,
+vi.mock('@/libs/prisma', () => ({
+  prisma,
 }));
 
-// reset all mocks before each test so they don't bleed into each other
 beforeEach(() => {
-  mockReset(prismaMock);
+  mockReset(prisma);
 });
+
+export { prisma as prismaMock };

@@ -52,7 +52,12 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  Post: 'Post'
+  Movie: 'Movie',
+  Hall: 'Hall',
+  Seat: 'Seat',
+  Showtime: 'Showtime',
+  Reservation: 'Reservation',
+  ReservedSeat: 'ReservedSeat'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -73,22 +78,79 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
+  name: 'name',
   email: 'email',
-  name: 'name'
+  hashPassword: 'hashPassword',
+  keyForHashing: 'keyForHashing',
+  role: 'role',
+  createdAt: 'createdAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const PostScalarFieldEnum = {
+export const MovieScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  content: 'content',
-  published: 'published',
-  authorId: 'authorId'
+  description: 'description',
+  durationMinutes: 'durationMinutes',
+  genre: 'genre',
+  posterUrl: 'posterUrl'
 } as const
 
-export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+export type MovieScalarFieldEnum = (typeof MovieScalarFieldEnum)[keyof typeof MovieScalarFieldEnum]
+
+
+export const HallScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  seatsNumber: 'seatsNumber'
+} as const
+
+export type HallScalarFieldEnum = (typeof HallScalarFieldEnum)[keyof typeof HallScalarFieldEnum]
+
+
+export const SeatScalarFieldEnum = {
+  id: 'id',
+  hallId: 'hallId',
+  row: 'row',
+  number: 'number',
+  type: 'type'
+} as const
+
+export type SeatScalarFieldEnum = (typeof SeatScalarFieldEnum)[keyof typeof SeatScalarFieldEnum]
+
+
+export const ShowtimeScalarFieldEnum = {
+  id: 'id',
+  startTime: 'startTime',
+  priceForSeat: 'priceForSeat',
+  movieId: 'movieId',
+  hallId: 'hallId'
+} as const
+
+export type ShowtimeScalarFieldEnum = (typeof ShowtimeScalarFieldEnum)[keyof typeof ShowtimeScalarFieldEnum]
+
+
+export const ReservationScalarFieldEnum = {
+  id: 'id',
+  totalPrice: 'totalPrice',
+  status: 'status',
+  userId: 'userId',
+  showtimeId: 'showtimeId',
+  createdAt: 'createdAt'
+} as const
+
+export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
+
+
+export const ReservedSeatScalarFieldEnum = {
+  id: 'id',
+  reservationId: 'reservationId',
+  seatId: 'seatId'
+} as const
+
+export type ReservedSeatScalarFieldEnum = (typeof ReservedSeatScalarFieldEnum)[keyof typeof ReservedSeatScalarFieldEnum]
 
 
 export const SortOrder = {

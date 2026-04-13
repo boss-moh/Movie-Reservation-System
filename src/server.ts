@@ -1,7 +1,7 @@
 import { PORT } from "@/config/index";
 
 import app from "@/app";
-import prisma from "./libs/primsa";
+import prisma from "@/libs/prisma";
 
 const startServer = async () => {
   try {
