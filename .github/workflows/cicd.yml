@@ -114,6 +114,10 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
+
+      - name: Generate Database Client
+        run: npm run db:generate 
+
       - name: Run tests with coverage
         run: npm test 
         env:
