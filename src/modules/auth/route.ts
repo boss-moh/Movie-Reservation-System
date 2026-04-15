@@ -1,13 +1,18 @@
 import { Router } from "express";
-import {  authenticate, authorize, validator } from "@/middleware";
+import { authenticate, authorize, validator } from "@/middleware";
 
 import {
+  deleteUserController,
+  getAllUsersController,
+  getUserByIdController,
   loginController,
   promoteController,
   refreshTokenController,
   registerController,
+  restoreUserController,
 } from "./controllers";
 import {
+  IdValidation,
   loginValidation,
   promoteValidation,
   refreshTokenValidation,
@@ -39,5 +44,39 @@ router.post(
   refreshTokenController,
 );
 
-export { router  };
+router.delete(
+  PATHS.AUTH.DELETE_USER,
+  authenticate,
+  authorize([Role.ADMIN]),
+  IdValidation,
+  validator,
+  deleteUserController,
+);
+
+router.put(
+  PATHS.AUTH.RESTORE_USER,
+  authenticate,
+  authorize([Role.ADMIN]),
+  IdValidation,
+  validator,
+  restoreUserController,
+);
+
+router.get(
+  PATHS.AUTH.GET_ALL_USERS,
+  authenticate,
+  authorize([Role.ADMIN]),
+  getAllUsersController,
+);
+
+router.get(
+  PATHS.AUTH.GET_USER_BY_ID,
+  authenticate,
+  authorize([Role.ADMIN]),
+  IdValidation,
+  validator,
+  getUserByIdController,
+);
+
+export { router };
 export default router;

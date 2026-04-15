@@ -21,14 +21,20 @@ export interface LoginDTO {
  * Standard response structure for an authenticated user.
  * Excludes sensitive fields like hashPassword and keyForHashing.
  */
-export interface AuthResponseDTO  {
+export interface AuthResponseDTO {
   accessToken: string;
   refreshToken: string;
   user: User
-  
+
 }
 
 export const getUserDTO = (user: User) => {
   const { id, name, email, role } = user;
   return { id, name, email, role };
+}
+
+
+export const getUserWithoutPassword = (user: User) => {
+  const { id, name, email, role, isDeleted, deletedAt, createdAt } = user;
+  return { id, name, email, role, isDeleted, deletedAt, createdAt };
 } 

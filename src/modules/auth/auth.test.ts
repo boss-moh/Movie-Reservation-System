@@ -7,8 +7,10 @@ import { Role } from "@generated/prisma/enums";
 import app from "@/app.js";
 import { getHashPassword } from "@/utils/getHashPassword";
 
+const invalidId = "dc988870-29a1-4210-a742-6171ff40d1e8";
+
 const clientUser = {
-  id: "user-1",
+  id: "dc988870-29a1-4210-a742-6171ff40d1e9",
   name: "testing client",
   email: "test@testing.com",
   password: "12345678",
@@ -20,10 +22,12 @@ const DBUser = {
   hashPassword: "",
   keyForHashing: "",
   createdAt: new Date(),
+  isDeleted: false,
+  deletedAt: null,
 };
 
 const AdminUser = {
-  id: "admin-1",
+  id: "dc988870-29a1-4210-a742-6171ff40d1e",
   name: "Admin",
   email: "admin@test.com",
   role: Role.ADMIN,
@@ -31,6 +35,8 @@ const AdminUser = {
   keyForHashing: "",
   createdAt: new Date(),
   password: "adminpassword",
+  isDeleted: false,
+  deletedAt: null,
 };
 
 describe("POST /auth/register", () => {
@@ -175,7 +181,6 @@ describe("put /auth/promote", () => {
         role: Role.ADMIN,
       });
 
-    console.log(JSON.stringify(res));
 
     expect(res.status).toBe(200);
     expect(res.body.role).toBe("ADMIN");
@@ -230,5 +235,206 @@ describe("put /auth/promote", () => {
     const res = await request(app).put("/api/auth/promote");
 
     expect(res.status).toBe(401);
+  });
+});
+
+// ─── GET /auth/users ──────────────────────────────────────────────────────────
+
+describe("GET /auth/users", () => {
+  it("returns 200 and list of users when admin", async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      ...AdminUser,
+      hashPassword: await getHashPassword(AdminUser.password),
+    });
+
+    const adminLogin = await request(app)
+      .post("/api/auth/login")
+      .send(AdminUser);
+
+    const adminToken = adminLogin.body.accessToken;
+
+    prismaMock.user.findMany.mockResolvedValueOnce([DBUser, AdminUser]);
+
+    const res = await request(app)
+      .get("/api/auth/users")
+      .set("Authorization", `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    expect(res.body.length).toBe(2);
+  });
+
+  it("returns 403 when regular user tries to get users", async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      ...DBUser,
+      hashPassword: await getHashPassword(clientUser.password),
+    });
+
+    const userLogin = await request(app)
+      .post("/api/auth/login")
+      .send(clientUser);
+
+    const userToken = userLogin.body.accessToken;
+
+    const res = await request(app)
+      .get("/api/auth/users")
+      .set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.status).toBe(403);
+  });
+});
+
+// ─── GET /auth/users/:id ──────────────────────────────────────────────────────
+
+describe("GET /auth/users/:id", () => {
+  it("returns 200 and user when admin", async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      ...AdminUser,
+      hashPassword: await getHashPassword(AdminUser.password),
+    });
+
+    const adminLogin = await request(app)
+      .post("/api/auth/login")
+      .send(AdminUser);
+
+    const adminToken = adminLogin.body.accessToken;
+
+    prismaMock.user.findUnique.mockResolvedValueOnce(DBUser);
+
+    const res = await request(app)
+      .get(`/api/auth/users/${DBUser.id}`)
+      .set("Authorization", `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.email).toBe(DBUser.email);
+  });
+
+  it("returns 404 if user not found", async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      ...AdminUser,
+      hashPassword: await getHashPassword(AdminUser.password),
+    });
+
+    const adminLogin = await request(app)
+      .post("/api/auth/login")
+      .send(AdminUser);
+
+    const adminToken = adminLogin.body.accessToken;
+
+    prismaMock.user.findUnique.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .get(`/api/auth/users/${invalidId}`)
+      .set("Authorization", `Bearer ${adminToken}`);
+
+
+    expect(res.status).toBe(404);
+  });
+});
+
+// ─── DELETE /auth/users/:id ───────────────────────────────────────────────────
+
+describe("DELETE /auth/users/:id", () => {
+  it("returns 200 and soft deletes user when admin", async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      ...AdminUser,
+      hashPassword: await getHashPassword(AdminUser.password),
+    });
+
+    const adminLogin = await request(app)
+      .post("/api/auth/login")
+      .send(AdminUser);
+
+    const adminToken = adminLogin.body.accessToken;
+
+    prismaMock.user.findUnique.mockResolvedValueOnce(DBUser);
+    prismaMock.user.update.mockResolvedValueOnce({
+      ...DBUser,
+      isDeleted: true,
+      deletedAt: new Date(),
+    });
+
+    const res = await request(app)
+      .delete(`/api/auth/users/${DBUser.id}`)
+      .set("Authorization", `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.isDeleted).toBe(true);
+  });
+
+  it("returns 403 when regular user tries to delete", async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      ...DBUser,
+      hashPassword: await getHashPassword(clientUser.password),
+    });
+
+    const userLogin = await request(app)
+      .post("/api/auth/login")
+      .send(clientUser);
+
+    const userToken = userLogin.body.accessToken;
+
+    const res = await request(app)
+      .delete(`/api/auth/users/${DBUser.id}`)
+      .set("Authorization", `Bearer ${userToken}`);
+
+    expect(res.status).toBe(403);
+  });
+});
+
+// ─── PUT /auth/users/restore/:id ──────────────────────────────────────────────
+
+describe("PUT /auth/users/restore/:id", () => {
+  it("returns 200 and restores user when admin", async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      ...AdminUser,
+      hashPassword: await getHashPassword(AdminUser.password),
+    });
+
+    const adminLogin = await request(app)
+      .post("/api/auth/login")
+      .send(AdminUser);
+
+    const adminToken = adminLogin.body.accessToken;
+
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      ...DBUser,
+      isDeleted: true,
+      deletedAt: new Date(),
+    });
+
+    prismaMock.user.update.mockResolvedValueOnce({
+      ...DBUser,
+      isDeleted: false,
+      deletedAt: null,
+    });
+
+    const res = await request(app)
+      .put(`/api/auth/users/restore/${DBUser.id}`)
+      .set("Authorization", `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.isDeleted).toBe(false);
+  });
+
+  it("returns 404 if user to restore not found", async () => {
+    prismaMock.user.findUnique.mockResolvedValueOnce({
+      ...AdminUser,
+      hashPassword: await getHashPassword(AdminUser.password),
+    });
+
+    const adminLogin = await request(app)
+      .post("/api/auth/login")
+      .send(AdminUser);
+
+    const adminToken = adminLogin.body.accessToken;
+
+    prismaMock.user.findUnique.mockResolvedValueOnce(null);
+
+    const res = await request(app)
+      .put(`/api/auth/users/restore/${invalidId}`)
+      .set("Authorization", `Bearer ${adminToken}`);
+
+    expect(res.status).toBe(404);
   });
 });
