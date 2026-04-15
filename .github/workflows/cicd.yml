@@ -99,7 +99,7 @@ jobs:
   test:
     name: 🧪 Run Tests
     runs-on: ubuntu-latest
-    needs: [lint,db-generate]
+    needs: [lint, db-generate]
     steps:
       - uses: actions/checkout@v4
 
@@ -114,9 +114,16 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
+      # 1. Download the artifact you created in the db-generate job
+      - name: Download generated client
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-prisma-client
+          path: generated/prisma/
 
-      - name: Generate Database Client
-        run: npm run db:generate 
+      # 2. Run generate again just to be safe (links the types locally)
+      - name: Re-link Prisma Client
+        run: npx prisma generate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
@@ -128,15 +135,6 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
           SALT_ROUNDS: ${{ secrets.SALT_ROUNDS }}
-        # Tip: add "test": "jest" to your package.json scripts
-
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: coverage-report
-          path: coverage/
-          retention-days: 7
 
   # ─────────────────────────────────────────
   # STAGE 4 — Security Audit
