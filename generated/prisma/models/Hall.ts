@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import type * as runtime from "@prisma/client/runtime/client"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -38,18 +38,24 @@ export type HallMinAggregateOutputType = {
   id: string | null
   name: string | null
   seatsNumber: number | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type HallMaxAggregateOutputType = {
   id: string | null
   name: string | null
   seatsNumber: number | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type HallCountAggregateOutputType = {
   id: number
   name: number
   seatsNumber: number
+  isDeleted: number
+  deletedAt: number
   _all: number
 }
 
@@ -66,18 +72,24 @@ export type HallMinAggregateInputType = {
   id?: true
   name?: true
   seatsNumber?: true
+  isDeleted?: true
+  deletedAt?: true
 }
 
 export type HallMaxAggregateInputType = {
   id?: true
   name?: true
   seatsNumber?: true
+  isDeleted?: true
+  deletedAt?: true
 }
 
 export type HallCountAggregateInputType = {
   id?: true
   name?: true
   seatsNumber?: true
+  isDeleted?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -171,6 +183,8 @@ export type HallGroupByOutputType = {
   id: string
   name: string
   seatsNumber: number
+  isDeleted: boolean
+  deletedAt: Date | null
   _count: HallCountAggregateOutputType | null
   _avg: HallAvgAggregateOutputType | null
   _sum: HallSumAggregateOutputType | null
@@ -178,7 +192,7 @@ export type HallGroupByOutputType = {
   _max: HallMaxAggregateOutputType | null
 }
 
-export type GetHallGroupByPayload<T extends HallGroupByArgs> = Prisma.PrismaPromise<
+type GetHallGroupByPayload<T extends HallGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<HallGroupByOutputType, T['by']> &
       {
@@ -200,6 +214,8 @@ export type HallWhereInput = {
   id?: Prisma.StringFilter<"Hall"> | string
   name?: Prisma.StringFilter<"Hall"> | string
   seatsNumber?: Prisma.IntFilter<"Hall"> | number
+  isDeleted?: Prisma.BoolFilter<"Hall"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Hall"> | Date | string | null
   seats?: Prisma.SeatListRelationFilter
   showtimes?: Prisma.ShowtimeListRelationFilter
 }
@@ -208,6 +224,8 @@ export type HallOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   seatsNumber?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   seats?: Prisma.SeatOrderByRelationAggregateInput
   showtimes?: Prisma.ShowtimeOrderByRelationAggregateInput
 }
@@ -219,6 +237,8 @@ export type HallWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.HallWhereInput | Prisma.HallWhereInput[]
   name?: Prisma.StringFilter<"Hall"> | string
   seatsNumber?: Prisma.IntFilter<"Hall"> | number
+  isDeleted?: Prisma.BoolFilter<"Hall"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Hall"> | Date | string | null
   seats?: Prisma.SeatListRelationFilter
   showtimes?: Prisma.ShowtimeListRelationFilter
 }, "id">
@@ -227,6 +247,8 @@ export type HallOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   seatsNumber?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.HallCountOrderByAggregateInput
   _avg?: Prisma.HallAvgOrderByAggregateInput
   _max?: Prisma.HallMaxOrderByAggregateInput
@@ -241,12 +263,16 @@ export type HallScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Hall"> | string
   name?: Prisma.StringWithAggregatesFilter<"Hall"> | string
   seatsNumber?: Prisma.IntWithAggregatesFilter<"Hall"> | number
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"Hall"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Hall"> | Date | string | null
 }
 
 export type HallCreateInput = {
   id?: string
   name: string
   seatsNumber: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   seats?: Prisma.SeatCreateNestedManyWithoutHallInput
   showtimes?: Prisma.ShowtimeCreateNestedManyWithoutHallInput
 }
@@ -255,6 +281,8 @@ export type HallUncheckedCreateInput = {
   id?: string
   name: string
   seatsNumber: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   seats?: Prisma.SeatUncheckedCreateNestedManyWithoutHallInput
   showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutHallInput
 }
@@ -263,6 +291,8 @@ export type HallUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   seatsNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seats?: Prisma.SeatUpdateManyWithoutHallNestedInput
   showtimes?: Prisma.ShowtimeUpdateManyWithoutHallNestedInput
 }
@@ -271,6 +301,8 @@ export type HallUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   seatsNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seats?: Prisma.SeatUncheckedUpdateManyWithoutHallNestedInput
   showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutHallNestedInput
 }
@@ -279,24 +311,32 @@ export type HallCreateManyInput = {
   id?: string
   name: string
   seatsNumber: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type HallUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   seatsNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type HallUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   seatsNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type HallCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   seatsNumber?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type HallAvgOrderByAggregateInput = {
@@ -307,12 +347,16 @@ export type HallMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   seatsNumber?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type HallMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   seatsNumber?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type HallSumOrderByAggregateInput = {
@@ -356,6 +400,8 @@ export type HallCreateWithoutSeatsInput = {
   id?: string
   name: string
   seatsNumber: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   showtimes?: Prisma.ShowtimeCreateNestedManyWithoutHallInput
 }
 
@@ -363,6 +409,8 @@ export type HallUncheckedCreateWithoutSeatsInput = {
   id?: string
   name: string
   seatsNumber: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   showtimes?: Prisma.ShowtimeUncheckedCreateNestedManyWithoutHallInput
 }
 
@@ -386,6 +434,8 @@ export type HallUpdateWithoutSeatsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   seatsNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   showtimes?: Prisma.ShowtimeUpdateManyWithoutHallNestedInput
 }
 
@@ -393,6 +443,8 @@ export type HallUncheckedUpdateWithoutSeatsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   seatsNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   showtimes?: Prisma.ShowtimeUncheckedUpdateManyWithoutHallNestedInput
 }
 
@@ -400,6 +452,8 @@ export type HallCreateWithoutShowtimesInput = {
   id?: string
   name: string
   seatsNumber: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   seats?: Prisma.SeatCreateNestedManyWithoutHallInput
 }
 
@@ -407,6 +461,8 @@ export type HallUncheckedCreateWithoutShowtimesInput = {
   id?: string
   name: string
   seatsNumber: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   seats?: Prisma.SeatUncheckedCreateNestedManyWithoutHallInput
 }
 
@@ -430,6 +486,8 @@ export type HallUpdateWithoutShowtimesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   seatsNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seats?: Prisma.SeatUpdateManyWithoutHallNestedInput
 }
 
@@ -437,6 +495,8 @@ export type HallUncheckedUpdateWithoutShowtimesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   seatsNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seats?: Prisma.SeatUncheckedUpdateManyWithoutHallNestedInput
 }
 
@@ -484,6 +544,8 @@ export type HallSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   name?: boolean
   seatsNumber?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   seats?: boolean | Prisma.Hall$seatsArgs<ExtArgs>
   showtimes?: boolean | Prisma.Hall$showtimesArgs<ExtArgs>
   _count?: boolean | Prisma.HallCountOutputTypeDefaultArgs<ExtArgs>
@@ -493,21 +555,27 @@ export type HallSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   name?: boolean
   seatsNumber?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["hall"]>
 
 export type HallSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   seatsNumber?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["hall"]>
 
 export type HallSelectScalar = {
   id?: boolean
   name?: boolean
   seatsNumber?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
 }
 
-export type HallOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "seatsNumber", ExtArgs["result"]["hall"]>
+export type HallOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "seatsNumber" | "isDeleted" | "deletedAt", ExtArgs["result"]["hall"]>
 export type HallInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   seats?: boolean | Prisma.Hall$seatsArgs<ExtArgs>
   showtimes?: boolean | Prisma.Hall$showtimesArgs<ExtArgs>
@@ -526,6 +594,8 @@ export type $HallPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     name: string
     seatsNumber: number
+    isDeleted: boolean
+    deletedAt: Date | null
   }, ExtArgs["result"]["hall"]>
   composites: {}
 }
@@ -954,6 +1024,8 @@ export interface HallFieldRefs {
   readonly id: Prisma.FieldRef<"Hall", 'String'>
   readonly name: Prisma.FieldRef<"Hall", 'String'>
   readonly seatsNumber: Prisma.FieldRef<"Hall", 'Int'>
+  readonly isDeleted: Prisma.FieldRef<"Hall", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"Hall", 'DateTime'>
 }
     
 
@@ -1150,11 +1222,6 @@ export type HallFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Skip the first `n` Halls.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of Halls.
-   */
   distinct?: Prisma.HallScalarFieldEnum | Prisma.HallScalarFieldEnum[]
 }
 

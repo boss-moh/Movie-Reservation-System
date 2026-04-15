@@ -8,16 +8,21 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
+
 model User {
-  id           String        @id @default(uuid())
-  name         String
-  email        String        @unique
-  hashPassword String
+  id            String        @id @default(uuid())
+  name          String
+  email         String        @unique
+  hashPassword  String
   keyForHashing String
-  role         Role          @default(USER)
-  reservations Reservation[]
-  createdAt    DateTime      @default(now())
+  role          Role          @default(USER)
+  reservations  Reservation[]
+  createdAt     DateTime      @default(now())
+
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 enum Role {
@@ -33,6 +38,9 @@ model Movie {
   genre           String
   posterUrl       String?
   showtimes       Showtime[]
+
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 model Hall {
@@ -41,16 +49,22 @@ model Hall {
   seatsNumber Int
   seats       Seat[]
   showtimes   Showtime[]
+
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 model Seat {
   id            String         @id @default(uuid())
   hallId        String
   hall          Hall           @relation(fields: [hallId], references: [id])
-  row           String         // e.g., "A"
-  number        Int            // e.g., 5
+  row           String // e.g., "A"
+  number        Int // e.g., 5
   type          String         @default("STANDARD") // e.g., "VIP", "STANDARD"
   reservedSeats ReservedSeat[]
+
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 model Showtime {
@@ -62,6 +76,9 @@ model Showtime {
   hallId       String
   hall         Hall          @relation(fields: [hallId], references: [id])
   reservations Reservation[]
+
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 model Reservation {
@@ -74,6 +91,9 @@ model Reservation {
   showtime      Showtime       @relation(fields: [showtimeId], references: [id])
   reservedSeats ReservedSeat[]
   createdAt     DateTime       @default(now())
+
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 }
 
 // Explicit many-to-many join table for Reservations and Seats
@@ -83,6 +103,9 @@ model ReservedSeat {
   reservation   Reservation @relation(fields: [reservationId], references: [id])
   seatId        String
   seat          Seat        @relation(fields: [seatId], references: [id])
+
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
 
   @@unique([reservationId, seatId]) // A seat can't be booked twice in the same reservation
 }

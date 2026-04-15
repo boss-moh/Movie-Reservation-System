@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import type * as runtime from "@prisma/client/runtime/client"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -28,18 +28,24 @@ export type ReservedSeatMinAggregateOutputType = {
   id: string | null
   reservationId: string | null
   seatId: string | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type ReservedSeatMaxAggregateOutputType = {
   id: string | null
   reservationId: string | null
   seatId: string | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type ReservedSeatCountAggregateOutputType = {
   id: number
   reservationId: number
   seatId: number
+  isDeleted: number
+  deletedAt: number
   _all: number
 }
 
@@ -48,18 +54,24 @@ export type ReservedSeatMinAggregateInputType = {
   id?: true
   reservationId?: true
   seatId?: true
+  isDeleted?: true
+  deletedAt?: true
 }
 
 export type ReservedSeatMaxAggregateInputType = {
   id?: true
   reservationId?: true
   seatId?: true
+  isDeleted?: true
+  deletedAt?: true
 }
 
 export type ReservedSeatCountAggregateInputType = {
   id?: true
   reservationId?: true
   seatId?: true
+  isDeleted?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -139,12 +151,14 @@ export type ReservedSeatGroupByOutputType = {
   id: string
   reservationId: string
   seatId: string
+  isDeleted: boolean
+  deletedAt: Date | null
   _count: ReservedSeatCountAggregateOutputType | null
   _min: ReservedSeatMinAggregateOutputType | null
   _max: ReservedSeatMaxAggregateOutputType | null
 }
 
-export type GetReservedSeatGroupByPayload<T extends ReservedSeatGroupByArgs> = Prisma.PrismaPromise<
+type GetReservedSeatGroupByPayload<T extends ReservedSeatGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ReservedSeatGroupByOutputType, T['by']> &
       {
@@ -166,6 +180,8 @@ export type ReservedSeatWhereInput = {
   id?: Prisma.StringFilter<"ReservedSeat"> | string
   reservationId?: Prisma.StringFilter<"ReservedSeat"> | string
   seatId?: Prisma.StringFilter<"ReservedSeat"> | string
+  isDeleted?: Prisma.BoolFilter<"ReservedSeat"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"ReservedSeat"> | Date | string | null
   reservation?: Prisma.XOR<Prisma.ReservationScalarRelationFilter, Prisma.ReservationWhereInput>
   seat?: Prisma.XOR<Prisma.SeatScalarRelationFilter, Prisma.SeatWhereInput>
 }
@@ -174,6 +190,8 @@ export type ReservedSeatOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   reservationId?: Prisma.SortOrder
   seatId?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   reservation?: Prisma.ReservationOrderByWithRelationInput
   seat?: Prisma.SeatOrderByWithRelationInput
 }
@@ -186,6 +204,8 @@ export type ReservedSeatWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ReservedSeatWhereInput | Prisma.ReservedSeatWhereInput[]
   reservationId?: Prisma.StringFilter<"ReservedSeat"> | string
   seatId?: Prisma.StringFilter<"ReservedSeat"> | string
+  isDeleted?: Prisma.BoolFilter<"ReservedSeat"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"ReservedSeat"> | Date | string | null
   reservation?: Prisma.XOR<Prisma.ReservationScalarRelationFilter, Prisma.ReservationWhereInput>
   seat?: Prisma.XOR<Prisma.SeatScalarRelationFilter, Prisma.SeatWhereInput>
 }, "id" | "reservationId_seatId">
@@ -194,6 +214,8 @@ export type ReservedSeatOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   reservationId?: Prisma.SortOrder
   seatId?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ReservedSeatCountOrderByAggregateInput
   _max?: Prisma.ReservedSeatMaxOrderByAggregateInput
   _min?: Prisma.ReservedSeatMinOrderByAggregateInput
@@ -206,10 +228,14 @@ export type ReservedSeatScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ReservedSeat"> | string
   reservationId?: Prisma.StringWithAggregatesFilter<"ReservedSeat"> | string
   seatId?: Prisma.StringWithAggregatesFilter<"ReservedSeat"> | string
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"ReservedSeat"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ReservedSeat"> | Date | string | null
 }
 
 export type ReservedSeatCreateInput = {
   id?: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   reservation: Prisma.ReservationCreateNestedOneWithoutReservedSeatsInput
   seat: Prisma.SeatCreateNestedOneWithoutReservedSeatsInput
 }
@@ -218,10 +244,14 @@ export type ReservedSeatUncheckedCreateInput = {
   id?: string
   reservationId: string
   seatId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ReservedSeatUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reservation?: Prisma.ReservationUpdateOneRequiredWithoutReservedSeatsNestedInput
   seat?: Prisma.SeatUpdateOneRequiredWithoutReservedSeatsNestedInput
 }
@@ -230,22 +260,30 @@ export type ReservedSeatUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reservationId?: Prisma.StringFieldUpdateOperationsInput | string
   seatId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ReservedSeatCreateManyInput = {
   id?: string
   reservationId: string
   seatId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ReservedSeatUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ReservedSeatUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reservationId?: Prisma.StringFieldUpdateOperationsInput | string
   seatId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ReservedSeatListRelationFilter = {
@@ -267,18 +305,24 @@ export type ReservedSeatCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   reservationId?: Prisma.SortOrder
   seatId?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ReservedSeatMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   reservationId?: Prisma.SortOrder
   seatId?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ReservedSeatMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   reservationId?: Prisma.SortOrder
   seatId?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ReservedSeatCreateNestedManyWithoutSeatInput = {
@@ -367,12 +411,16 @@ export type ReservedSeatUncheckedUpdateManyWithoutReservationNestedInput = {
 
 export type ReservedSeatCreateWithoutSeatInput = {
   id?: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   reservation: Prisma.ReservationCreateNestedOneWithoutReservedSeatsInput
 }
 
 export type ReservedSeatUncheckedCreateWithoutSeatInput = {
   id?: string
   reservationId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ReservedSeatCreateOrConnectWithoutSeatInput = {
@@ -408,16 +456,22 @@ export type ReservedSeatScalarWhereInput = {
   id?: Prisma.StringFilter<"ReservedSeat"> | string
   reservationId?: Prisma.StringFilter<"ReservedSeat"> | string
   seatId?: Prisma.StringFilter<"ReservedSeat"> | string
+  isDeleted?: Prisma.BoolFilter<"ReservedSeat"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"ReservedSeat"> | Date | string | null
 }
 
 export type ReservedSeatCreateWithoutReservationInput = {
   id?: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   seat: Prisma.SeatCreateNestedOneWithoutReservedSeatsInput
 }
 
 export type ReservedSeatUncheckedCreateWithoutReservationInput = {
   id?: string
   seatId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ReservedSeatCreateOrConnectWithoutReservationInput = {
@@ -449,41 +503,57 @@ export type ReservedSeatUpdateManyWithWhereWithoutReservationInput = {
 export type ReservedSeatCreateManySeatInput = {
   id?: string
   reservationId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ReservedSeatUpdateWithoutSeatInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reservation?: Prisma.ReservationUpdateOneRequiredWithoutReservedSeatsNestedInput
 }
 
 export type ReservedSeatUncheckedUpdateWithoutSeatInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reservationId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ReservedSeatUncheckedUpdateManyWithoutSeatInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   reservationId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ReservedSeatCreateManyReservationInput = {
   id?: string
   seatId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ReservedSeatUpdateWithoutReservationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   seat?: Prisma.SeatUpdateOneRequiredWithoutReservedSeatsNestedInput
 }
 
 export type ReservedSeatUncheckedUpdateWithoutReservationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   seatId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ReservedSeatUncheckedUpdateManyWithoutReservationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   seatId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -492,6 +562,8 @@ export type ReservedSeatSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   reservationId?: boolean
   seatId?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   reservation?: boolean | Prisma.ReservationDefaultArgs<ExtArgs>
   seat?: boolean | Prisma.SeatDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reservedSeat"]>
@@ -500,6 +572,8 @@ export type ReservedSeatSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   reservationId?: boolean
   seatId?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   reservation?: boolean | Prisma.ReservationDefaultArgs<ExtArgs>
   seat?: boolean | Prisma.SeatDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reservedSeat"]>
@@ -508,6 +582,8 @@ export type ReservedSeatSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   reservationId?: boolean
   seatId?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   reservation?: boolean | Prisma.ReservationDefaultArgs<ExtArgs>
   seat?: boolean | Prisma.SeatDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reservedSeat"]>
@@ -516,9 +592,11 @@ export type ReservedSeatSelectScalar = {
   id?: boolean
   reservationId?: boolean
   seatId?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
 }
 
-export type ReservedSeatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reservationId" | "seatId", ExtArgs["result"]["reservedSeat"]>
+export type ReservedSeatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "reservationId" | "seatId" | "isDeleted" | "deletedAt", ExtArgs["result"]["reservedSeat"]>
 export type ReservedSeatInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reservation?: boolean | Prisma.ReservationDefaultArgs<ExtArgs>
   seat?: boolean | Prisma.SeatDefaultArgs<ExtArgs>
@@ -542,6 +620,8 @@ export type $ReservedSeatPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     reservationId: string
     seatId: string
+    isDeleted: boolean
+    deletedAt: Date | null
   }, ExtArgs["result"]["reservedSeat"]>
   composites: {}
 }
@@ -970,6 +1050,8 @@ export interface ReservedSeatFieldRefs {
   readonly id: Prisma.FieldRef<"ReservedSeat", 'String'>
   readonly reservationId: Prisma.FieldRef<"ReservedSeat", 'String'>
   readonly seatId: Prisma.FieldRef<"ReservedSeat", 'String'>
+  readonly isDeleted: Prisma.FieldRef<"ReservedSeat", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"ReservedSeat", 'DateTime'>
 }
     
 
@@ -1166,11 +1248,6 @@ export type ReservedSeatFindManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Skip the first `n` ReservedSeats.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of ReservedSeats.
-   */
   distinct?: Prisma.ReservedSeatScalarFieldEnum | Prisma.ReservedSeatScalarFieldEnum[]
 }
 

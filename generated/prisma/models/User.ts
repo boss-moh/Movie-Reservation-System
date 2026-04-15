@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import type * as runtime from "@prisma/client/runtime/client"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -32,6 +32,8 @@ export type UserMinAggregateOutputType = {
   keyForHashing: string | null
   role: $Enums.Role | null
   createdAt: Date | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -42,6 +44,8 @@ export type UserMaxAggregateOutputType = {
   keyForHashing: string | null
   role: $Enums.Role | null
   createdAt: Date | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -52,6 +56,8 @@ export type UserCountAggregateOutputType = {
   keyForHashing: number
   role: number
   createdAt: number
+  isDeleted: number
+  deletedAt: number
   _all: number
 }
 
@@ -64,6 +70,8 @@ export type UserMinAggregateInputType = {
   keyForHashing?: true
   role?: true
   createdAt?: true
+  isDeleted?: true
+  deletedAt?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -74,6 +82,8 @@ export type UserMaxAggregateInputType = {
   keyForHashing?: true
   role?: true
   createdAt?: true
+  isDeleted?: true
+  deletedAt?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -84,6 +94,8 @@ export type UserCountAggregateInputType = {
   keyForHashing?: true
   role?: true
   createdAt?: true
+  isDeleted?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -167,12 +179,14 @@ export type UserGroupByOutputType = {
   keyForHashing: string
   role: $Enums.Role
   createdAt: Date
+  isDeleted: boolean
+  deletedAt: Date | null
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
 
-export type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
+type GetUserGroupByPayload<T extends UserGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UserGroupByOutputType, T['by']> &
       {
@@ -198,6 +212,8 @@ export type UserWhereInput = {
   keyForHashing?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  isDeleted?: Prisma.BoolFilter<"User"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   reservations?: Prisma.ReservationListRelationFilter
 }
 
@@ -209,6 +225,8 @@ export type UserOrderByWithRelationInput = {
   keyForHashing?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   reservations?: Prisma.ReservationOrderByRelationAggregateInput
 }
 
@@ -223,6 +241,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   keyForHashing?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  isDeleted?: Prisma.BoolFilter<"User"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   reservations?: Prisma.ReservationListRelationFilter
 }, "id" | "email">
 
@@ -234,6 +254,8 @@ export type UserOrderByWithAggregationInput = {
   keyForHashing?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -250,6 +272,8 @@ export type UserScalarWhereWithAggregatesInput = {
   keyForHashing?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
 }
 
 export type UserCreateInput = {
@@ -260,6 +284,8 @@ export type UserCreateInput = {
   keyForHashing: string
   role?: $Enums.Role
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   reservations?: Prisma.ReservationCreateNestedManyWithoutUserInput
 }
 
@@ -271,6 +297,8 @@ export type UserUncheckedCreateInput = {
   keyForHashing: string
   role?: $Enums.Role
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -282,6 +310,8 @@ export type UserUpdateInput = {
   keyForHashing?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reservations?: Prisma.ReservationUpdateManyWithoutUserNestedInput
 }
 
@@ -293,6 +323,8 @@ export type UserUncheckedUpdateInput = {
   keyForHashing?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -304,6 +336,8 @@ export type UserCreateManyInput = {
   keyForHashing: string
   role?: $Enums.Role
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -314,6 +348,8 @@ export type UserUpdateManyMutationInput = {
   keyForHashing?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -324,6 +360,8 @@ export type UserUncheckedUpdateManyInput = {
   keyForHashing?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -334,6 +372,8 @@ export type UserCountOrderByAggregateInput = {
   keyForHashing?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -344,6 +384,8 @@ export type UserMaxOrderByAggregateInput = {
   keyForHashing?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -354,6 +396,8 @@ export type UserMinOrderByAggregateInput = {
   keyForHashing?: Prisma.SortOrder
   role?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -371,6 +415,14 @@ export type EnumRoleFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type UserCreateNestedOneWithoutReservationsInput = {
@@ -395,6 +447,8 @@ export type UserCreateWithoutReservationsInput = {
   keyForHashing: string
   role?: $Enums.Role
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type UserUncheckedCreateWithoutReservationsInput = {
@@ -405,6 +459,8 @@ export type UserUncheckedCreateWithoutReservationsInput = {
   keyForHashing: string
   role?: $Enums.Role
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type UserCreateOrConnectWithoutReservationsInput = {
@@ -431,6 +487,8 @@ export type UserUpdateWithoutReservationsInput = {
   keyForHashing?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateWithoutReservationsInput = {
@@ -441,6 +499,8 @@ export type UserUncheckedUpdateWithoutReservationsInput = {
   keyForHashing?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -482,6 +542,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   keyForHashing?: boolean
   role?: boolean
   createdAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   reservations?: boolean | Prisma.User$reservationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -494,6 +556,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   keyForHashing?: boolean
   role?: boolean
   createdAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -504,6 +568,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   keyForHashing?: boolean
   role?: boolean
   createdAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -514,9 +580,11 @@ export type UserSelectScalar = {
   keyForHashing?: boolean
   role?: boolean
   createdAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "hashPassword" | "keyForHashing" | "role" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "hashPassword" | "keyForHashing" | "role" | "createdAt" | "isDeleted" | "deletedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   reservations?: boolean | Prisma.User$reservationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -537,6 +605,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     keyForHashing: string
     role: $Enums.Role
     createdAt: Date
+    isDeleted: boolean
+    deletedAt: Date | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -968,6 +1038,8 @@ export interface UserFieldRefs {
   readonly keyForHashing: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly isDeleted: Prisma.FieldRef<"User", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 
@@ -1164,11 +1236,6 @@ export type UserFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Skip the first `n` Users.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of Users.
-   */
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
 }
 

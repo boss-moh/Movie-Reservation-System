@@ -24,30 +24,28 @@ export const Decimal = runtime.Decimal
 
 
 export const NullTypes = {
-  DbNull: runtime.NullTypes.DbNull as (new (secret: never) => typeof runtime.DbNull),
-  JsonNull: runtime.NullTypes.JsonNull as (new (secret: never) => typeof runtime.JsonNull),
-  AnyNull: runtime.NullTypes.AnyNull as (new (secret: never) => typeof runtime.AnyNull),
+  DbNull: runtime.objectEnumValues.classes.DbNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.DbNull),
+  JsonNull: runtime.objectEnumValues.classes.JsonNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.JsonNull),
+  AnyNull: runtime.objectEnumValues.classes.AnyNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.AnyNull),
 }
 /**
  * Helper for filtering JSON entries that have `null` on the database (empty on the db)
  *
  * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
  */
-export const DbNull = runtime.DbNull
-
+export const DbNull = runtime.objectEnumValues.instances.DbNull
 /**
  * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
  *
  * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
  */
-export const JsonNull = runtime.JsonNull
-
+export const JsonNull = runtime.objectEnumValues.instances.JsonNull
 /**
  * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
  *
  * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
  */
-export const AnyNull = runtime.AnyNull
+export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
@@ -83,7 +81,9 @@ export const UserScalarFieldEnum = {
   hashPassword: 'hashPassword',
   keyForHashing: 'keyForHashing',
   role: 'role',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -95,7 +95,9 @@ export const MovieScalarFieldEnum = {
   description: 'description',
   durationMinutes: 'durationMinutes',
   genre: 'genre',
-  posterUrl: 'posterUrl'
+  posterUrl: 'posterUrl',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt'
 } as const
 
 export type MovieScalarFieldEnum = (typeof MovieScalarFieldEnum)[keyof typeof MovieScalarFieldEnum]
@@ -104,7 +106,9 @@ export type MovieScalarFieldEnum = (typeof MovieScalarFieldEnum)[keyof typeof Mo
 export const HallScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  seatsNumber: 'seatsNumber'
+  seatsNumber: 'seatsNumber',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt'
 } as const
 
 export type HallScalarFieldEnum = (typeof HallScalarFieldEnum)[keyof typeof HallScalarFieldEnum]
@@ -115,7 +119,9 @@ export const SeatScalarFieldEnum = {
   hallId: 'hallId',
   row: 'row',
   number: 'number',
-  type: 'type'
+  type: 'type',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt'
 } as const
 
 export type SeatScalarFieldEnum = (typeof SeatScalarFieldEnum)[keyof typeof SeatScalarFieldEnum]
@@ -126,7 +132,9 @@ export const ShowtimeScalarFieldEnum = {
   startTime: 'startTime',
   priceForSeat: 'priceForSeat',
   movieId: 'movieId',
-  hallId: 'hallId'
+  hallId: 'hallId',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt'
 } as const
 
 export type ShowtimeScalarFieldEnum = (typeof ShowtimeScalarFieldEnum)[keyof typeof ShowtimeScalarFieldEnum]
@@ -138,7 +146,9 @@ export const ReservationScalarFieldEnum = {
   status: 'status',
   userId: 'userId',
   showtimeId: 'showtimeId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt'
 } as const
 
 export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
@@ -147,7 +157,9 @@ export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[key
 export const ReservedSeatScalarFieldEnum = {
   id: 'id',
   reservationId: 'reservationId',
-  seatId: 'seatId'
+  seatId: 'seatId',
+  isDeleted: 'isDeleted',
+  deletedAt: 'deletedAt'
 } as const
 
 export type ReservedSeatScalarFieldEnum = (typeof ReservedSeatScalarFieldEnum)[keyof typeof ReservedSeatScalarFieldEnum]

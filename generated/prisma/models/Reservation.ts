@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import type * as runtime from "@prisma/client/runtime/client"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -41,6 +41,8 @@ export type ReservationMinAggregateOutputType = {
   userId: string | null
   showtimeId: string | null
   createdAt: Date | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type ReservationMaxAggregateOutputType = {
@@ -50,6 +52,8 @@ export type ReservationMaxAggregateOutputType = {
   userId: string | null
   showtimeId: string | null
   createdAt: Date | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type ReservationCountAggregateOutputType = {
@@ -59,6 +63,8 @@ export type ReservationCountAggregateOutputType = {
   userId: number
   showtimeId: number
   createdAt: number
+  isDeleted: number
+  deletedAt: number
   _all: number
 }
 
@@ -78,6 +84,8 @@ export type ReservationMinAggregateInputType = {
   userId?: true
   showtimeId?: true
   createdAt?: true
+  isDeleted?: true
+  deletedAt?: true
 }
 
 export type ReservationMaxAggregateInputType = {
@@ -87,6 +95,8 @@ export type ReservationMaxAggregateInputType = {
   userId?: true
   showtimeId?: true
   createdAt?: true
+  isDeleted?: true
+  deletedAt?: true
 }
 
 export type ReservationCountAggregateInputType = {
@@ -96,6 +106,8 @@ export type ReservationCountAggregateInputType = {
   userId?: true
   showtimeId?: true
   createdAt?: true
+  isDeleted?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -192,6 +204,8 @@ export type ReservationGroupByOutputType = {
   userId: string
   showtimeId: string
   createdAt: Date
+  isDeleted: boolean
+  deletedAt: Date | null
   _count: ReservationCountAggregateOutputType | null
   _avg: ReservationAvgAggregateOutputType | null
   _sum: ReservationSumAggregateOutputType | null
@@ -199,7 +213,7 @@ export type ReservationGroupByOutputType = {
   _max: ReservationMaxAggregateOutputType | null
 }
 
-export type GetReservationGroupByPayload<T extends ReservationGroupByArgs> = Prisma.PrismaPromise<
+type GetReservationGroupByPayload<T extends ReservationGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ReservationGroupByOutputType, T['by']> &
       {
@@ -224,6 +238,8 @@ export type ReservationWhereInput = {
   userId?: Prisma.StringFilter<"Reservation"> | string
   showtimeId?: Prisma.StringFilter<"Reservation"> | string
   createdAt?: Prisma.DateTimeFilter<"Reservation"> | Date | string
+  isDeleted?: Prisma.BoolFilter<"Reservation"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Reservation"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   showtime?: Prisma.XOR<Prisma.ShowtimeScalarRelationFilter, Prisma.ShowtimeWhereInput>
   reservedSeats?: Prisma.ReservedSeatListRelationFilter
@@ -236,6 +252,8 @@ export type ReservationOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   showtimeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   showtime?: Prisma.ShowtimeOrderByWithRelationInput
   reservedSeats?: Prisma.ReservedSeatOrderByRelationAggregateInput
@@ -251,6 +269,8 @@ export type ReservationWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"Reservation"> | string
   showtimeId?: Prisma.StringFilter<"Reservation"> | string
   createdAt?: Prisma.DateTimeFilter<"Reservation"> | Date | string
+  isDeleted?: Prisma.BoolFilter<"Reservation"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Reservation"> | Date | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   showtime?: Prisma.XOR<Prisma.ShowtimeScalarRelationFilter, Prisma.ShowtimeWhereInput>
   reservedSeats?: Prisma.ReservedSeatListRelationFilter
@@ -263,6 +283,8 @@ export type ReservationOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   showtimeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ReservationCountOrderByAggregateInput
   _avg?: Prisma.ReservationAvgOrderByAggregateInput
   _max?: Prisma.ReservationMaxOrderByAggregateInput
@@ -280,6 +302,8 @@ export type ReservationScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Reservation"> | string
   showtimeId?: Prisma.StringWithAggregatesFilter<"Reservation"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Reservation"> | Date | string
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"Reservation"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Reservation"> | Date | string | null
 }
 
 export type ReservationCreateInput = {
@@ -287,6 +311,8 @@ export type ReservationCreateInput = {
   totalPrice: number
   status?: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutReservationsInput
   showtime: Prisma.ShowtimeCreateNestedOneWithoutReservationsInput
   reservedSeats?: Prisma.ReservedSeatCreateNestedManyWithoutReservationInput
@@ -299,6 +325,8 @@ export type ReservationUncheckedCreateInput = {
   userId: string
   showtimeId: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   reservedSeats?: Prisma.ReservedSeatUncheckedCreateNestedManyWithoutReservationInput
 }
 
@@ -307,6 +335,8 @@ export type ReservationUpdateInput = {
   totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutReservationsNestedInput
   showtime?: Prisma.ShowtimeUpdateOneRequiredWithoutReservationsNestedInput
   reservedSeats?: Prisma.ReservedSeatUpdateManyWithoutReservationNestedInput
@@ -319,6 +349,8 @@ export type ReservationUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   showtimeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reservedSeats?: Prisma.ReservedSeatUncheckedUpdateManyWithoutReservationNestedInput
 }
 
@@ -329,6 +361,8 @@ export type ReservationCreateManyInput = {
   userId: string
   showtimeId: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ReservationUpdateManyMutationInput = {
@@ -336,6 +370,8 @@ export type ReservationUpdateManyMutationInput = {
   totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ReservationUncheckedUpdateManyInput = {
@@ -345,6 +381,8 @@ export type ReservationUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   showtimeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ReservationListRelationFilter = {
@@ -364,6 +402,8 @@ export type ReservationCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   showtimeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ReservationAvgOrderByAggregateInput = {
@@ -377,6 +417,8 @@ export type ReservationMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   showtimeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ReservationMinOrderByAggregateInput = {
@@ -386,6 +428,8 @@ export type ReservationMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   showtimeId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ReservationSumOrderByAggregateInput = {
@@ -500,6 +544,8 @@ export type ReservationCreateWithoutUserInput = {
   totalPrice: number
   status?: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   showtime: Prisma.ShowtimeCreateNestedOneWithoutReservationsInput
   reservedSeats?: Prisma.ReservedSeatCreateNestedManyWithoutReservationInput
 }
@@ -510,6 +556,8 @@ export type ReservationUncheckedCreateWithoutUserInput = {
   status?: string
   showtimeId: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   reservedSeats?: Prisma.ReservedSeatUncheckedCreateNestedManyWithoutReservationInput
 }
 
@@ -549,6 +597,8 @@ export type ReservationScalarWhereInput = {
   userId?: Prisma.StringFilter<"Reservation"> | string
   showtimeId?: Prisma.StringFilter<"Reservation"> | string
   createdAt?: Prisma.DateTimeFilter<"Reservation"> | Date | string
+  isDeleted?: Prisma.BoolFilter<"Reservation"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Reservation"> | Date | string | null
 }
 
 export type ReservationCreateWithoutShowtimeInput = {
@@ -556,6 +606,8 @@ export type ReservationCreateWithoutShowtimeInput = {
   totalPrice: number
   status?: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutReservationsInput
   reservedSeats?: Prisma.ReservedSeatCreateNestedManyWithoutReservationInput
 }
@@ -566,6 +618,8 @@ export type ReservationUncheckedCreateWithoutShowtimeInput = {
   status?: string
   userId: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   reservedSeats?: Prisma.ReservedSeatUncheckedCreateNestedManyWithoutReservationInput
 }
 
@@ -600,6 +654,8 @@ export type ReservationCreateWithoutReservedSeatsInput = {
   totalPrice: number
   status?: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutReservationsInput
   showtime: Prisma.ShowtimeCreateNestedOneWithoutReservationsInput
 }
@@ -611,6 +667,8 @@ export type ReservationUncheckedCreateWithoutReservedSeatsInput = {
   userId: string
   showtimeId: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ReservationCreateOrConnectWithoutReservedSeatsInput = {
@@ -634,6 +692,8 @@ export type ReservationUpdateWithoutReservedSeatsInput = {
   totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutReservationsNestedInput
   showtime?: Prisma.ShowtimeUpdateOneRequiredWithoutReservationsNestedInput
 }
@@ -645,6 +705,8 @@ export type ReservationUncheckedUpdateWithoutReservedSeatsInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   showtimeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ReservationCreateManyUserInput = {
@@ -653,6 +715,8 @@ export type ReservationCreateManyUserInput = {
   status?: string
   showtimeId: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ReservationUpdateWithoutUserInput = {
@@ -660,6 +724,8 @@ export type ReservationUpdateWithoutUserInput = {
   totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   showtime?: Prisma.ShowtimeUpdateOneRequiredWithoutReservationsNestedInput
   reservedSeats?: Prisma.ReservedSeatUpdateManyWithoutReservationNestedInput
 }
@@ -670,6 +736,8 @@ export type ReservationUncheckedUpdateWithoutUserInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   showtimeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reservedSeats?: Prisma.ReservedSeatUncheckedUpdateManyWithoutReservationNestedInput
 }
 
@@ -679,6 +747,8 @@ export type ReservationUncheckedUpdateManyWithoutUserInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   showtimeId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ReservationCreateManyShowtimeInput = {
@@ -687,6 +757,8 @@ export type ReservationCreateManyShowtimeInput = {
   status?: string
   userId: string
   createdAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ReservationUpdateWithoutShowtimeInput = {
@@ -694,6 +766,8 @@ export type ReservationUpdateWithoutShowtimeInput = {
   totalPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutReservationsNestedInput
   reservedSeats?: Prisma.ReservedSeatUpdateManyWithoutReservationNestedInput
 }
@@ -704,6 +778,8 @@ export type ReservationUncheckedUpdateWithoutShowtimeInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reservedSeats?: Prisma.ReservedSeatUncheckedUpdateManyWithoutReservationNestedInput
 }
 
@@ -713,6 +789,8 @@ export type ReservationUncheckedUpdateManyWithoutShowtimeInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -753,6 +831,8 @@ export type ReservationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   userId?: boolean
   showtimeId?: boolean
   createdAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   showtime?: boolean | Prisma.ShowtimeDefaultArgs<ExtArgs>
   reservedSeats?: boolean | Prisma.Reservation$reservedSeatsArgs<ExtArgs>
@@ -766,6 +846,8 @@ export type ReservationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   showtimeId?: boolean
   createdAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   showtime?: boolean | Prisma.ShowtimeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reservation"]>
@@ -777,6 +859,8 @@ export type ReservationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   userId?: boolean
   showtimeId?: boolean
   createdAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   showtime?: boolean | Prisma.ShowtimeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["reservation"]>
@@ -788,9 +872,11 @@ export type ReservationSelectScalar = {
   userId?: boolean
   showtimeId?: boolean
   createdAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
 }
 
-export type ReservationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "totalPrice" | "status" | "userId" | "showtimeId" | "createdAt", ExtArgs["result"]["reservation"]>
+export type ReservationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "totalPrice" | "status" | "userId" | "showtimeId" | "createdAt" | "isDeleted" | "deletedAt", ExtArgs["result"]["reservation"]>
 export type ReservationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   showtime?: boolean | Prisma.ShowtimeDefaultArgs<ExtArgs>
@@ -820,6 +906,8 @@ export type $ReservationPayload<ExtArgs extends runtime.Types.Extensions.Interna
     userId: string
     showtimeId: string
     createdAt: Date
+    isDeleted: boolean
+    deletedAt: Date | null
   }, ExtArgs["result"]["reservation"]>
   composites: {}
 }
@@ -1252,6 +1340,8 @@ export interface ReservationFieldRefs {
   readonly userId: Prisma.FieldRef<"Reservation", 'String'>
   readonly showtimeId: Prisma.FieldRef<"Reservation", 'String'>
   readonly createdAt: Prisma.FieldRef<"Reservation", 'DateTime'>
+  readonly isDeleted: Prisma.FieldRef<"Reservation", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"Reservation", 'DateTime'>
 }
     
 
@@ -1448,11 +1538,6 @@ export type ReservationFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Skip the first `n` Reservations.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of Reservations.
-   */
   distinct?: Prisma.ReservationScalarFieldEnum | Prisma.ReservationScalarFieldEnum[]
 }
 

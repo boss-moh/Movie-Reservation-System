@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import type * as runtime from "@prisma/client/runtime/client"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -40,6 +40,8 @@ export type ShowtimeMinAggregateOutputType = {
   priceForSeat: number | null
   movieId: string | null
   hallId: string | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type ShowtimeMaxAggregateOutputType = {
@@ -48,6 +50,8 @@ export type ShowtimeMaxAggregateOutputType = {
   priceForSeat: number | null
   movieId: string | null
   hallId: string | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
 }
 
 export type ShowtimeCountAggregateOutputType = {
@@ -56,6 +60,8 @@ export type ShowtimeCountAggregateOutputType = {
   priceForSeat: number
   movieId: number
   hallId: number
+  isDeleted: number
+  deletedAt: number
   _all: number
 }
 
@@ -74,6 +80,8 @@ export type ShowtimeMinAggregateInputType = {
   priceForSeat?: true
   movieId?: true
   hallId?: true
+  isDeleted?: true
+  deletedAt?: true
 }
 
 export type ShowtimeMaxAggregateInputType = {
@@ -82,6 +90,8 @@ export type ShowtimeMaxAggregateInputType = {
   priceForSeat?: true
   movieId?: true
   hallId?: true
+  isDeleted?: true
+  deletedAt?: true
 }
 
 export type ShowtimeCountAggregateInputType = {
@@ -90,6 +100,8 @@ export type ShowtimeCountAggregateInputType = {
   priceForSeat?: true
   movieId?: true
   hallId?: true
+  isDeleted?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -185,6 +197,8 @@ export type ShowtimeGroupByOutputType = {
   priceForSeat: number
   movieId: string
   hallId: string
+  isDeleted: boolean
+  deletedAt: Date | null
   _count: ShowtimeCountAggregateOutputType | null
   _avg: ShowtimeAvgAggregateOutputType | null
   _sum: ShowtimeSumAggregateOutputType | null
@@ -192,7 +206,7 @@ export type ShowtimeGroupByOutputType = {
   _max: ShowtimeMaxAggregateOutputType | null
 }
 
-export type GetShowtimeGroupByPayload<T extends ShowtimeGroupByArgs> = Prisma.PrismaPromise<
+type GetShowtimeGroupByPayload<T extends ShowtimeGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ShowtimeGroupByOutputType, T['by']> &
       {
@@ -216,6 +230,8 @@ export type ShowtimeWhereInput = {
   priceForSeat?: Prisma.FloatFilter<"Showtime"> | number
   movieId?: Prisma.StringFilter<"Showtime"> | string
   hallId?: Prisma.StringFilter<"Showtime"> | string
+  isDeleted?: Prisma.BoolFilter<"Showtime"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Showtime"> | Date | string | null
   movie?: Prisma.XOR<Prisma.MovieScalarRelationFilter, Prisma.MovieWhereInput>
   hall?: Prisma.XOR<Prisma.HallScalarRelationFilter, Prisma.HallWhereInput>
   reservations?: Prisma.ReservationListRelationFilter
@@ -227,6 +243,8 @@ export type ShowtimeOrderByWithRelationInput = {
   priceForSeat?: Prisma.SortOrder
   movieId?: Prisma.SortOrder
   hallId?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   movie?: Prisma.MovieOrderByWithRelationInput
   hall?: Prisma.HallOrderByWithRelationInput
   reservations?: Prisma.ReservationOrderByRelationAggregateInput
@@ -241,6 +259,8 @@ export type ShowtimeWhereUniqueInput = Prisma.AtLeast<{
   priceForSeat?: Prisma.FloatFilter<"Showtime"> | number
   movieId?: Prisma.StringFilter<"Showtime"> | string
   hallId?: Prisma.StringFilter<"Showtime"> | string
+  isDeleted?: Prisma.BoolFilter<"Showtime"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Showtime"> | Date | string | null
   movie?: Prisma.XOR<Prisma.MovieScalarRelationFilter, Prisma.MovieWhereInput>
   hall?: Prisma.XOR<Prisma.HallScalarRelationFilter, Prisma.HallWhereInput>
   reservations?: Prisma.ReservationListRelationFilter
@@ -252,6 +272,8 @@ export type ShowtimeOrderByWithAggregationInput = {
   priceForSeat?: Prisma.SortOrder
   movieId?: Prisma.SortOrder
   hallId?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ShowtimeCountOrderByAggregateInput
   _avg?: Prisma.ShowtimeAvgOrderByAggregateInput
   _max?: Prisma.ShowtimeMaxOrderByAggregateInput
@@ -268,12 +290,16 @@ export type ShowtimeScalarWhereWithAggregatesInput = {
   priceForSeat?: Prisma.FloatWithAggregatesFilter<"Showtime"> | number
   movieId?: Prisma.StringWithAggregatesFilter<"Showtime"> | string
   hallId?: Prisma.StringWithAggregatesFilter<"Showtime"> | string
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"Showtime"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Showtime"> | Date | string | null
 }
 
 export type ShowtimeCreateInput = {
   id?: string
   startTime: Date | string
   priceForSeat: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   movie: Prisma.MovieCreateNestedOneWithoutShowtimesInput
   hall: Prisma.HallCreateNestedOneWithoutShowtimesInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutShowtimeInput
@@ -285,6 +311,8 @@ export type ShowtimeUncheckedCreateInput = {
   priceForSeat: number
   movieId: string
   hallId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutShowtimeInput
 }
 
@@ -292,6 +320,8 @@ export type ShowtimeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   movie?: Prisma.MovieUpdateOneRequiredWithoutShowtimesNestedInput
   hall?: Prisma.HallUpdateOneRequiredWithoutShowtimesNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutShowtimeNestedInput
@@ -303,6 +333,8 @@ export type ShowtimeUncheckedUpdateInput = {
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
   movieId?: Prisma.StringFieldUpdateOperationsInput | string
   hallId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutShowtimeNestedInput
 }
 
@@ -312,12 +344,16 @@ export type ShowtimeCreateManyInput = {
   priceForSeat: number
   movieId: string
   hallId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ShowtimeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ShowtimeUncheckedUpdateManyInput = {
@@ -326,6 +362,8 @@ export type ShowtimeUncheckedUpdateManyInput = {
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
   movieId?: Prisma.StringFieldUpdateOperationsInput | string
   hallId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ShowtimeListRelationFilter = {
@@ -344,6 +382,8 @@ export type ShowtimeCountOrderByAggregateInput = {
   priceForSeat?: Prisma.SortOrder
   movieId?: Prisma.SortOrder
   hallId?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ShowtimeAvgOrderByAggregateInput = {
@@ -356,6 +396,8 @@ export type ShowtimeMaxOrderByAggregateInput = {
   priceForSeat?: Prisma.SortOrder
   movieId?: Prisma.SortOrder
   hallId?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ShowtimeMinOrderByAggregateInput = {
@@ -364,6 +406,8 @@ export type ShowtimeMinOrderByAggregateInput = {
   priceForSeat?: Prisma.SortOrder
   movieId?: Prisma.SortOrder
   hallId?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type ShowtimeSumOrderByAggregateInput = {
@@ -485,6 +529,8 @@ export type ShowtimeCreateWithoutMovieInput = {
   id?: string
   startTime: Date | string
   priceForSeat: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   hall: Prisma.HallCreateNestedOneWithoutShowtimesInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutShowtimeInput
 }
@@ -494,6 +540,8 @@ export type ShowtimeUncheckedCreateWithoutMovieInput = {
   startTime: Date | string
   priceForSeat: number
   hallId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutShowtimeInput
 }
 
@@ -532,12 +580,16 @@ export type ShowtimeScalarWhereInput = {
   priceForSeat?: Prisma.FloatFilter<"Showtime"> | number
   movieId?: Prisma.StringFilter<"Showtime"> | string
   hallId?: Prisma.StringFilter<"Showtime"> | string
+  isDeleted?: Prisma.BoolFilter<"Showtime"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Showtime"> | Date | string | null
 }
 
 export type ShowtimeCreateWithoutHallInput = {
   id?: string
   startTime: Date | string
   priceForSeat: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   movie: Prisma.MovieCreateNestedOneWithoutShowtimesInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutShowtimeInput
 }
@@ -547,6 +599,8 @@ export type ShowtimeUncheckedCreateWithoutHallInput = {
   startTime: Date | string
   priceForSeat: number
   movieId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutShowtimeInput
 }
 
@@ -580,6 +634,8 @@ export type ShowtimeCreateWithoutReservationsInput = {
   id?: string
   startTime: Date | string
   priceForSeat: number
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
   movie: Prisma.MovieCreateNestedOneWithoutShowtimesInput
   hall: Prisma.HallCreateNestedOneWithoutShowtimesInput
 }
@@ -590,6 +646,8 @@ export type ShowtimeUncheckedCreateWithoutReservationsInput = {
   priceForSeat: number
   movieId: string
   hallId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ShowtimeCreateOrConnectWithoutReservationsInput = {
@@ -612,6 +670,8 @@ export type ShowtimeUpdateWithoutReservationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   movie?: Prisma.MovieUpdateOneRequiredWithoutShowtimesNestedInput
   hall?: Prisma.HallUpdateOneRequiredWithoutShowtimesNestedInput
 }
@@ -622,6 +682,8 @@ export type ShowtimeUncheckedUpdateWithoutReservationsInput = {
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
   movieId?: Prisma.StringFieldUpdateOperationsInput | string
   hallId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ShowtimeCreateManyMovieInput = {
@@ -629,12 +691,16 @@ export type ShowtimeCreateManyMovieInput = {
   startTime: Date | string
   priceForSeat: number
   hallId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ShowtimeUpdateWithoutMovieInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   hall?: Prisma.HallUpdateOneRequiredWithoutShowtimesNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutShowtimeNestedInput
 }
@@ -644,6 +710,8 @@ export type ShowtimeUncheckedUpdateWithoutMovieInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
   hallId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutShowtimeNestedInput
 }
 
@@ -652,6 +720,8 @@ export type ShowtimeUncheckedUpdateManyWithoutMovieInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
   hallId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ShowtimeCreateManyHallInput = {
@@ -659,12 +729,16 @@ export type ShowtimeCreateManyHallInput = {
   startTime: Date | string
   priceForSeat: number
   movieId: string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
 }
 
 export type ShowtimeUpdateWithoutHallInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   movie?: Prisma.MovieUpdateOneRequiredWithoutShowtimesNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutShowtimeNestedInput
 }
@@ -674,6 +748,8 @@ export type ShowtimeUncheckedUpdateWithoutHallInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
   movieId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutShowtimeNestedInput
 }
 
@@ -682,6 +758,8 @@ export type ShowtimeUncheckedUpdateManyWithoutHallInput = {
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   priceForSeat?: Prisma.FloatFieldUpdateOperationsInput | number
   movieId?: Prisma.StringFieldUpdateOperationsInput | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -721,6 +799,8 @@ export type ShowtimeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   priceForSeat?: boolean
   movieId?: boolean
   hallId?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>
   hall?: boolean | Prisma.HallDefaultArgs<ExtArgs>
   reservations?: boolean | Prisma.Showtime$reservationsArgs<ExtArgs>
@@ -733,6 +813,8 @@ export type ShowtimeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   priceForSeat?: boolean
   movieId?: boolean
   hallId?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>
   hall?: boolean | Prisma.HallDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["showtime"]>
@@ -743,6 +825,8 @@ export type ShowtimeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   priceForSeat?: boolean
   movieId?: boolean
   hallId?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
   movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>
   hall?: boolean | Prisma.HallDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["showtime"]>
@@ -753,9 +837,11 @@ export type ShowtimeSelectScalar = {
   priceForSeat?: boolean
   movieId?: boolean
   hallId?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
 }
 
-export type ShowtimeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "startTime" | "priceForSeat" | "movieId" | "hallId", ExtArgs["result"]["showtime"]>
+export type ShowtimeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "startTime" | "priceForSeat" | "movieId" | "hallId" | "isDeleted" | "deletedAt", ExtArgs["result"]["showtime"]>
 export type ShowtimeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   movie?: boolean | Prisma.MovieDefaultArgs<ExtArgs>
   hall?: boolean | Prisma.HallDefaultArgs<ExtArgs>
@@ -784,6 +870,8 @@ export type $ShowtimePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     priceForSeat: number
     movieId: string
     hallId: string
+    isDeleted: boolean
+    deletedAt: Date | null
   }, ExtArgs["result"]["showtime"]>
   composites: {}
 }
@@ -1215,6 +1303,8 @@ export interface ShowtimeFieldRefs {
   readonly priceForSeat: Prisma.FieldRef<"Showtime", 'Float'>
   readonly movieId: Prisma.FieldRef<"Showtime", 'String'>
   readonly hallId: Prisma.FieldRef<"Showtime", 'String'>
+  readonly isDeleted: Prisma.FieldRef<"Showtime", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"Showtime", 'DateTime'>
 }
     
 
@@ -1411,11 +1501,6 @@ export type ShowtimeFindManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Skip the first `n` Showtimes.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of Showtimes.
-   */
   distinct?: Prisma.ShowtimeScalarFieldEnum | Prisma.ShowtimeScalarFieldEnum[]
 }
 

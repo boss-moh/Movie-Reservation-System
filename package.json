@@ -10,7 +10,11 @@
     "dev": "ts-node-dev --respawn   --require tsconfig-paths/register src/server.ts ",
     "build": "tsc  && tsc-alias ",
     "start": "node   dist/server.js",
-    "seed": "ts-node   --require tsconfig-paths/register src/seed.ts"
+    "seed": "ts-node   --require tsconfig-paths/register src/seed.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio"
   },
   "repository": {
     "type": "git",
