@@ -96,7 +96,7 @@ jobs:
   # ─────────────────────────────────────────
   # STAGE 3 — Tests
   # ─────────────────────────────────────────
-test:
+  test:
     name: 🧪 Run Tests
     runs-on: ubuntu-latest
     needs: [install, lint, db-generate]
