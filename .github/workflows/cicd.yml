@@ -96,33 +96,28 @@ jobs:
   # ─────────────────────────────────────────
   # STAGE 3 — Tests
   # ─────────────────────────────────────────
-  test:
+test:
     name: 🧪 Run Tests
     runs-on: ubuntu-latest
-    needs: [lint, db-generate]
+    needs: [install, lint, db-generate]
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      - name: Restore cache
+      - name: Restore node_modules cache
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
-      # 1. Download the artifact you created in the db-generate job
-      - name: Download generated client
-        uses: actions/download-artifact@v4
-        with:
-          name: generated-prisma-client
-          path: generated/prisma/
-
-      # 2. Run generate again just to be safe (links the types locally)
-      - name: Re-link Prisma Client
+      # 🟢 CRITICAL STEP: Re-generate the client on this specific runner
+      - name: Generate Prisma Client
         run: npx prisma generate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -135,6 +130,7 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
           SALT_ROUNDS: ${{ secrets.SALT_ROUNDS }}
+
 
   # ─────────────────────────────────────────
   # STAGE 4 — Security Audit
