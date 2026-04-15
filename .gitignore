@@ -1,7 +1,6 @@
 node_modules
 
 
-#Environment variables
 .env
 
 
@@ -9,7 +8,6 @@ dist
 
 
 
-# Prisma
 generated/**/*
 /generated/prisma
 
