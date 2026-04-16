@@ -40,7 +40,7 @@ export const restoreUserController = async (req: RequestWithID, res: Response) =
     res.status(200).json(restoredUser);
 };
 
-export const getAllUsersController = async (req: Request, res: Response) => {
+export const getAllUsersController = async (_req: Request, res: Response) => {
     const users = await AuthService.getAllUsers();
     res.status(200).json(users);
 };
