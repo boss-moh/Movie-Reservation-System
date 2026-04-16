@@ -7,7 +7,6 @@ import { Role } from "@generated/prisma/enums";
 import app from "@/app.js";
 import { getHashPassword } from "@/utils/getHashPassword";
 
-const invalidId = "dc988870-29a1-4210-a742-6171ff40d1e8";
 
 const clientUser = {
   id: "dc988870-29a1-4210-a742-6171ff40d1e9",
@@ -26,18 +25,7 @@ const DBUser = {
   deletedAt: null,
 };
 
-const AdminUser = {
-  id: "dc988870-29a1-4210-a742-6171ff40d1e",
-  name: "Admin",
-  email: "admin@test.com",
-  role: Role.ADMIN,
-  hashPassword: "",
-  keyForHashing: "",
-  createdAt: new Date(),
-  password: "adminpassword",
-  isDeleted: false,
-  deletedAt: null,
-};
+
 
 describe("POST /auth/register", () => {
   it("returns 201 and userDTO on success ", async () => {

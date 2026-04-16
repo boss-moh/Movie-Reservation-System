@@ -1,5 +1,5 @@
 import { Role } from '@generated/prisma/browser';
-import { body, param } from 'express-validator';
+import { body } from 'express-validator';
 
 export const promoteValidation = [
   body("id").notEmpty().withMessage("User ID is required"),

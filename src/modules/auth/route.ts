@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authenticate, authorize, validator } from "@/middleware";
+import { authenticate, validator } from "@/middleware";
 
 import {
   loginController,
