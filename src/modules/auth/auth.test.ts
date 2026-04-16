@@ -7,8 +7,9 @@ import { Role } from "@generated/prisma/enums";
 import app from "@/app.js";
 import { getHashPassword } from "@/utils/getHashPassword";
 
+
 const clientUser = {
-  id: "user-1",
+  id: "dc988870-29a1-4210-a742-6171ff40d1e9",
   name: "testing client",
   email: "test@testing.com",
   password: "12345678",
@@ -20,18 +21,11 @@ const DBUser = {
   hashPassword: "",
   keyForHashing: "",
   createdAt: new Date(),
+  isDeleted: false,
+  deletedAt: null,
 };
 
-const AdminUser = {
-  id: "admin-1",
-  name: "Admin",
-  email: "admin@test.com",
-  role: Role.ADMIN,
-  hashPassword: "",
-  keyForHashing: "",
-  createdAt: new Date(),
-  password: "adminpassword",
-};
+
 
 describe("POST /auth/register", () => {
   it("returns 201 and userDTO on success ", async () => {
@@ -142,93 +136,5 @@ describe("POST /auth/login", () => {
       .send({ email: "ghost@test.com", password: "123456" });
 
     expect(res.status).toBe(404);
-  });
-});
-
-// ─── PATCH /auth/promote/:id ──────────────────────────────────────────────────
-
-describe("put /auth/promote", () => {
-  it("returns 200 and promoted user when admin", async () => {
-    prismaMock.user.findUnique.mockResolvedValueOnce({
-      ...AdminUser,
-      hashPassword: await getHashPassword(AdminUser.password),
-    });
-
-    const adminLogin = await request(app)
-      .post("/api/auth/login")
-      .send(AdminUser);
-
-    expect(adminLogin.status).toBe(200);
-    const adminToken = adminLogin.body.accessToken;
-
-    prismaMock.user.findUnique.mockResolvedValueOnce(DBUser);
-    prismaMock.user.update.mockResolvedValueOnce({
-      ...DBUser,
-      role: Role.ADMIN,
-    });
-
-    const res = await request(app)
-      .put("/api/auth/promote")
-      .set("Authorization", `Bearer ${adminToken}`)
-      .send({
-        id: clientUser.id,
-        role: Role.ADMIN,
-      });
-
-    console.log(JSON.stringify(res));
-
-    expect(res.status).toBe(200);
-    expect(res.body.role).toBe("ADMIN");
-  });
-
-  it("returns 404 if user to promote does not exist", async () => {
-    prismaMock.user.findUnique.mockResolvedValueOnce({
-      ...AdminUser,
-      hashPassword: await getHashPassword(AdminUser.password),
-    });
-
-    const adminLogin = await request(app)
-      .post("/api/auth/login")
-      .send(AdminUser);
-
-    expect(adminLogin.status).toBe(200);
-    const adminToken = adminLogin.body.accessToken;
-
-    prismaMock.user.findUnique.mockResolvedValueOnce(null);
-
-    const res = await request(app)
-      .put("/api/auth/promote")
-      .set("Authorization", `Bearer ${adminToken}`)
-      .send({
-        id: "000000",
-        role: Role.ADMIN,
-      });
-
-    expect(res.status).toBe(404);
-  });
-
-  it("returns 403 when regular user tries to promote", async () => {
-    prismaMock.user.findUnique.mockResolvedValueOnce({
-      ...DBUser,
-      hashPassword: await getHashPassword(clientUser.password),
-    });
-
-    const userLogin = await request(app)
-      .post("/api/auth/login")
-      .send(clientUser);
-
-    expect(userLogin.status).toBe(200);
-    const userToken = userLogin.body.accessToken;
-    const res = await request(app)
-      .put("/api/auth/promote")
-      .set("Authorization", `Bearer ${userToken}`);
-
-    expect(res.status).toBe(403);
-  });
-
-  it("returns 401 when no token provided", async () => {
-    const res = await request(app).put("/api/auth/promote");
-
-    expect(res.status).toBe(401);
   });
 });

@@ -5,7 +5,6 @@ export const PATHS = {
     BASE: "/auth",
     REGISTER: "/register",
     LOGIN: "/login",
-    PROMOTE: "/promote",
     REFRESH_TOKEN: "/refresh-token",
   },
   MOVIE: {
@@ -16,10 +15,20 @@ export const PATHS = {
     UPDATE: "/:id",
     DELETE: "/:id",
     RESTORE: "/:id/restore",
+
+  },
+  USER: {
+    BASE: "/users",
+    PROMOTE: "/promote",
+    DELETE_USER: "/:id",
+    RESTORE_USER: "/restore/:id",
+    GET_ALL_USERS: "/",
+    GET_USER_BY_ID: "/:id",
   }
+
 } as const
 
 
 export const IdValidation = [
-  param('id').isUUID().withMessage('Invalid movie ID'),
+  param("id").notEmpty().withMessage("User ID is required").isUUID().withMessage("Invalid User ID format"),
 ];

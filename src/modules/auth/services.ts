@@ -1,17 +1,17 @@
 import jwt from "jsonwebtoken";
 import { prisma } from "@/libs/prisma"; // Assuming you exported prisma client here
-import { RegisterDTO, LoginDTO, getUserDTO } from "./type";
+import { RegisterDTO, LoginDTO } from "./type";
 
 import { JWT_REFRESH_SECRET, JWT_SECRET } from "@/config";
 import {
   createEntityWithSameInfoError,
   createNotExitError,
   createInvalidError,
+  CustomError
 } from "@/errors";
 
 import { Role } from "@generated/prisma/enums";
-import CustomError from "@/errors/CustomError";
-import { comparePassword, getHashPassword } from "@/utils/getHashPassword";
+import { comparePassword, getHashPassword, getUserDTO } from "@/utils";
 
 export const register = async (data: RegisterDTO) => {
   const existingUser = await prisma.user.findUnique({
@@ -59,20 +59,6 @@ export const login = async (data: LoginDTO) => {
     refreshToken,
     user: getUserDTO(user),
   };
-};
-
-export const promoteToAdmin = async (id: string, role: Role) => {
-  const existingUser = await prisma.user.findUnique({
-    where: { id },
-  });
-
-  if (!existingUser) throw createNotExitError("email");
-
-  const user = await prisma.user.update({
-    where: { id },
-    data: { role },
-  });
-  return getUserDTO(user);
 };
 
 // #ToDo: verfiy the refresh token, if valid issue a new access token, if not throw an error
