@@ -1,1 +1,2 @@
-export * from "./validate";
+export * from './DTO'
+export * from './getHashPassword'

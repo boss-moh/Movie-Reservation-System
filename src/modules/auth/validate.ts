@@ -1,5 +1,4 @@
-import { Role } from '@generated/prisma/browser';
-import { body, param } from 'express-validator';
+import { body } from 'express-validator';
 
 export const registerValidation = [
   body('name')
@@ -22,17 +21,6 @@ export const loginValidation = [
   body('password').notEmpty().withMessage('Password is required'),
 ];
 
-
-export const promoteValidation = [
-  body("id").notEmpty().withMessage("User ID is required"),
-  body('role').notEmpty().withMessage('Role is required').isIn(Object.values(Role)).withMessage('Role must be either ADMIN or USER'),
-];
-
-
 export const refreshTokenValidation = [
   body('refreshToken').notEmpty().withMessage('Refresh token is required'),
-];
-
-export const IdValidation = [
-  param("id").notEmpty().withMessage("User ID is required").isUUID().withMessage("Invalid User ID format"),
 ];
