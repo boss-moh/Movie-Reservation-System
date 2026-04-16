@@ -9,6 +9,7 @@ import {
   getMovieByIdController,
   updateMovieController,
   deleteMovieController,
+  restoreMovieController,
 } from "./controllers";
 
 import {
@@ -50,6 +51,15 @@ router.delete(
   IdValidation,
   validator,
   deleteMovieController
+);
+
+router.put(
+  PATHS.MOVIE.RESTORE,
+  authenticate,
+  authorize([Role.ADMIN]),
+  IdValidation,
+  validator,
+  restoreMovieController
 );
 
 export { router };

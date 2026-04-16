@@ -41,8 +41,24 @@ export const deleteMovie = async (id: string) => {
   if (!movie) {
     throw new CustomError({ message: "Movie not found", statusCode: 404 });
   }
-  await prisma.movie.delete({
+
+  await prisma.movie.update({
     where: { id },
+    data: { isDeleted: true, deletedAt: new Date() },
   });
   return { message: "Movie deleted successfully" };
+};
+
+
+export const restoreMovie = async (id: string) => {
+  const movie = await prisma.movie.findUnique({ where: { id } });
+  if (!movie) {
+    throw new CustomError({ message: "Movie not found", statusCode: 404 });
+  }
+
+  await prisma.movie.update({
+    where: { id },
+    data: { isDeleted: false, deletedAt: null },
+  });
+  return { message: "Movie restored successfully" };
 };

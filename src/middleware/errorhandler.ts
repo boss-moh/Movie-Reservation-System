@@ -2,7 +2,7 @@ import CustomError from "@/errors/CustomError";
 import { getErrorMessage } from "@/errors/getErrorMessage";
 import { NextFunction, Request, Response } from "express";
 
-export const errorHandler = (error: unknown, req: Request, res: Response,_:NextFunction) => {
+export const errorHandler = (error: unknown, _req: Request, res: Response, _next: NextFunction) => {
   if (error instanceof CustomError) {
     res.status(error.statusCode).json({
       error: {

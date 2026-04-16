@@ -29,3 +29,10 @@ export const deleteMovieController = async (req: RequestWithId, res: Response) =
     const result = await MovieService.deleteMovie(id);
     res.status(200).json(result);
 };
+
+
+export const restoreMovieController = async (req: RequestWithId, res: Response) => {
+    const { id } = req.params
+    const result = await MovieService.restoreMovie(id);
+    res.status(200).json(result);
+};

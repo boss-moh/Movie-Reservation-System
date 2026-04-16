@@ -15,6 +15,7 @@ export const PATHS = {
     GET_BY_ID: "/:id",
     UPDATE: "/:id",
     DELETE: "/:id",
+    RESTORE: "/:id/restore",
   }
 } as const
 

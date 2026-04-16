@@ -23,6 +23,8 @@ const DBAdmin = {
   hashPassword: "",
   keyForHashing: "",
   createdAt: new Date(),
+  deletedAt: null,
+  isDeleted: false,
 };
 
 const clientUser = {
@@ -30,6 +32,7 @@ const clientUser = {
   name: "User",
   email: "user@test.com",
   password: "userpassword",
+
 };
 
 const DBUser = {
@@ -38,6 +41,8 @@ const DBUser = {
   hashPassword: "",
   keyForHashing: "",
   createdAt: new Date(),
+  deletedAt: null,
+  isDeleted: false,
 };
 
 const DBMovie = {
@@ -48,7 +53,8 @@ const DBMovie = {
   description: "A thief who steals corporate secrets...",
   posterUrl: "http://example.com/inception.jpg",
   createdAt: new Date(),
-  updatedAt: new Date(),
+  deletedAt: null,
+  isDeleted: false,
 };
 
 const createMoviePayload = {
@@ -195,13 +201,25 @@ describe("Movie API Endpoints", () => {
     it("returns 200 and deletes a movie when user is admin", async () => {
       const token = await getAuthToken(clientAdmin, DBAdmin);
       prismaMock.movie.findUnique.mockResolvedValueOnce(DBMovie);
-      prismaMock.movie.delete.mockResolvedValueOnce(DBMovie as any);
+      prismaMock.movie.update.mockResolvedValueOnce(DBMovie as any);
 
       const res = await request(app)
         .delete(`/api/movies/${validUUID}`)
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(200);
+      expect(res.body.message).toBe("Movie deleted successfully");
+    });
+
+    it("returns 404 if movie to delete does not exist", async () => {
+      const token = await getAuthToken(clientAdmin, DBAdmin);
+      prismaMock.movie.findUnique.mockResolvedValueOnce(null);
+
+      const res = await request(app)
+        .delete(`/api/movies/${validUUID}`)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).toBe(404);
     });
 
     it("returns 403 when user is not an admin", async () => {
@@ -209,6 +227,42 @@ describe("Movie API Endpoints", () => {
 
       const res = await request(app)
         .delete(`/api/movies/${validUUID}`)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).toBe(403);
+    });
+  });
+
+  describe("PUT /api/movies/:id/restore (Admin only)", () => {
+    it("returns 200 and restores a movie when user is admin", async () => {
+      const token = await getAuthToken(clientAdmin, DBAdmin);
+      prismaMock.movie.findUnique.mockResolvedValueOnce(DBMovie);
+      prismaMock.movie.update.mockResolvedValueOnce(DBMovie as any);
+
+      const res = await request(app)
+        .put(`/api/movies/${validUUID}/restore`)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).toBe(200);
+      expect(res.body.message).toBe("Movie restored successfully");
+    });
+
+    it("returns 404 if movie to restore does not exist", async () => {
+      const token = await getAuthToken(clientAdmin, DBAdmin);
+      prismaMock.movie.findUnique.mockResolvedValueOnce(null);
+
+      const res = await request(app)
+        .put(`/api/movies/${validUUID}/restore`)
+        .set("Authorization", `Bearer ${token}`);
+
+      expect(res.status).toBe(404);
+    });
+
+    it("returns 403 when user is not an admin", async () => {
+      const token = await getAuthToken(clientUser, DBUser);
+
+      const res = await request(app)
+        .put(`/api/movies/${validUUID}/restore`)
         .set("Authorization", `Bearer ${token}`);
 
       expect(res.status).toBe(403);
