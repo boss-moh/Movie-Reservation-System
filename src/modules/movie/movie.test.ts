@@ -201,7 +201,7 @@ describe("Movie API Endpoints", () => {
     it("returns 200 and deletes a movie when user is admin", async () => {
       const token = await getAuthToken(clientAdmin, DBAdmin);
       prismaMock.movie.findUnique.mockResolvedValueOnce(DBMovie);
-      prismaMock.movie.update.mockResolvedValueOnce(DBMovie as any);
+      prismaMock.movie.update.mockResolvedValueOnce(DBMovie );
 
       const res = await request(app)
         .delete(`/api/movies/${validUUID}`)
@@ -237,7 +237,7 @@ describe("Movie API Endpoints", () => {
     it("returns 200 and restores a movie when user is admin", async () => {
       const token = await getAuthToken(clientAdmin, DBAdmin);
       prismaMock.movie.findUnique.mockResolvedValueOnce(DBMovie);
-      prismaMock.movie.update.mockResolvedValueOnce(DBMovie as any);
+      prismaMock.movie.update.mockResolvedValueOnce(DBMovie );
 
       const res = await request(app)
         .put(`/api/movies/${validUUID}/restore`)
