@@ -15,15 +15,8 @@ export const loginController = async (req: Request, res: Response) => {
 
 };
 
-export const promoteController = async (req: Request, res: Response) => {
-    const { role,id } = req.body;
-    const updatedUser = await AuthService.promoteToAdmin(id, role);
-    res.status(200).json(updatedUser);
-};
-
-
 export const refreshTokenController = async (req: RequestWithUser, res: Response) => {
-    const { refreshToken =''} = req.body
+    const { refreshToken = '' } = req.body
     const result = await AuthService.refreshAccessToken(refreshToken);
     res.status(200).json(result);
 };
