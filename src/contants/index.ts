@@ -7,6 +7,16 @@ export const PATHS = {
     LOGIN: "/login",
     REFRESH_TOKEN: "/refresh-token",
   },
+  MOVIE: {
+    BASE: "/movies",
+    CREATE: "",
+    GET_ALL: "",
+    GET_BY_ID: "/:id",
+    UPDATE: "/:id",
+    DELETE: "/:id",
+    RESTORE: "/:id/restore",
+
+  },
   USER: {
     BASE: "/users",
     PROMOTE: "/promote",
@@ -15,6 +25,7 @@ export const PATHS = {
     GET_ALL_USERS: "/",
     GET_USER_BY_ID: "/:id",
   }
+
 } as const
 
 

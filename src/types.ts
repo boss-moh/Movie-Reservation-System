@@ -5,5 +5,4 @@ export type userDTO = Pick<User, 'id' | 'email' | 'name' | 'role'>
 
 export type RequestWithUser = Request & { user?: userDTO };
 
-
-export type RequestWithID = Request & { params: { id: string } };
+export type RequestWithId = Request & { params: { id: string } };
