@@ -57,8 +57,6 @@ model Seat {
   id            String         @id @default(uuid())
   hallId        String
   hall          Hall           @relation(fields: [hallId], references: [id])
-  row           String // e.g., "A"
-  number        Int // e.g., 5
   type          String         @default("STANDARD") // e.g., "VIP", "STANDARD"
   reservedSeats ReservedSeat[]
 
