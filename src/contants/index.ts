@@ -24,11 +24,20 @@ export const PATHS = {
     RESTORE_USER: "/restore/:id",
     GET_ALL_USERS: "/",
     GET_USER_BY_ID: "/:id",
+  },
+  HALL: {
+    BASE: "/halls",
+    CREATE: "",
+    GET_ALL: "",
+    GET_BY_ID: "/:id",
+    UPDATE: "/:id",
+    DELETE: "/:id",
+    RESTORE: "/:id/restore",
   }
 
 } as const
 
 
 export const IdValidation = [
-  param("id").notEmpty().withMessage("User ID is required").isUUID().withMessage("Invalid User ID format"),
+  param("id").notEmpty().withMessage(" ID is required").isUUID().withMessage("Invalid User ID format"),
 ];
