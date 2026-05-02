@@ -1,19 +1,13 @@
-import { Request } from "express";
+import { Hall, Status } from "@generated/prisma/browser";
 
-export type CreateSeatDTO = {
-  type?: string;
+
+
+export type CreateHallDTO = Omit<Hall, "id" | "status"> & {
+  status?: Status
 };
 
-export type CreateHallDTO = {
-  name: string;
-  seatsNumber?: number;
-  seats?: CreateSeatDTO[];
-};
-
-export type UpdateHallDTO = Partial<Pick<CreateHallDTO, "name" | "seatsNumber">>;
-
-export type UpdateSeatDTO = Partial<CreateSeatDTO>;
+export type UpdateHallDTO = Partial<CreateHallDTO>;
 
 
-export type RequestWithHallAndSeat = Request & { params: { hallId: string; seatId: string } };
+
 

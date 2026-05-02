@@ -25,14 +25,3 @@ export const updateHallController = async (req: RequestWithId, res: Response) =>
   res.status(200).json(hall);
 };
 
-export const deleteHallController = async (req: RequestWithId, res: Response) => {
-  const result = await HallService.deleteHall(req.params.id);
-  res.status(200).json(result);
-};
-
-export const restoreHallController = async (req: RequestWithId, res: Response) => {
-  const result = await HallService.restoreHall(req.params.id);
-  res.status(200).json(result);
-};
-
-

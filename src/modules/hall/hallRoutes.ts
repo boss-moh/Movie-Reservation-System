@@ -3,20 +3,19 @@ import { authenticate, authorize, validator } from "@/middleware";
 import { Role } from "@generated/prisma/enums";
 import { IdValidation, PATHS } from "@/contants";
 
-
 import {
   createHallController,
   getAllHallsController,
   getHallByIdController,
   updateHallController,
-  deleteHallController,
-  restoreHallController,
-} from "./controllers";
+
+} from "@/modules/hall/controllers";
 
 import {
   createHallValidation,
   updateHallValidation,
-} from "./validate";
+} from "@/modules/hall/validate";
+
 
 
 const router = Router();
@@ -42,30 +41,10 @@ router.put(
   updateHallController,
 );
 
-router.delete(
-  PATHS.HALL.DELETE,
-  authenticate,
-  authorize([Role.ADMIN]),
-  IdValidation,
-  validator,
-  deleteHallController,
-);
-
-router.put(
-  PATHS.HALL.RESTORE,
-  authenticate,
-  authorize([Role.ADMIN]),
-  IdValidation,
-  validator,
-  restoreHallController,
-);
 
 
 
 
-
-
-// Seats routes
 
 
 
