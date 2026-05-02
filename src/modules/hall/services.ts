@@ -3,19 +3,27 @@ import { createNotExitError } from "@/errors";
 import {
   CreateHallDTO,
   UpdateHallDTO,
-} from "./type";
+} from "@/modules/hall/type";
 
 
 export const createHall = async (data: CreateHallDTO) => {
+  const { seatsNumber, name, status } = data;
 
-  const seats = data.seats ?? [];
-  const hasSeats = seats.length > 0;
+
+
   return prisma.hall.create({
     data: {
-      name: data.name,
-      seatsNumber: data.seatsNumber ?? 0,
-      seats: hasSeats ?
-        { create: seats } : {},
+      name,
+      seatsNumber,
+      ...(status ? { status } : {}),
+      seats: {
+        create: Array(seatsNumber).fill({})
+      }
+    },
+    include: {
+      _count: {
+        select: { seats: true }
+      }
     }
   });
 };
@@ -27,6 +35,9 @@ export const getAllHalls = async () => {
 export const getHallById = async (id: string) => {
   const hall = await prisma.hall.findUnique({
     where: { id },
+    include: {
+      seats: true,
+    },
   });
 
   if (!hall) {
@@ -43,45 +54,14 @@ export const updateHall = async (id: string, data: UpdateHallDTO) => {
     throw createNotExitError("Hall");
   }
 
+
+  const { name, seatsNumber, status } = data
   return prisma.hall.update({
     where: { id },
-    data,
-  });
-};
-
-export const deleteHall = async (id: string) => {
-  const hall = await prisma.hall.findUnique({ where: { id } });
-
-  if (!hall) {
-    throw createNotExitError("Hall");
-  }
-
-  await prisma.hall.update({
-    where: { id },
     data: {
-      isDeleted: true,
-      deletedAt: new Date(),
+      ...(name ? { name } : {}),
+      ...(seatsNumber ? { seatsNumber } : {}),
+      ...(status ? { status } : {})
     },
   });
-
-  return { message: "Hall deleted successfully" };
 };
-
-export const restoreHall = async (id: string) => {
-  const hall = await prisma.hall.findUnique({ where: { id } });
-
-  if (!hall) {
-    throw createNotExitError("Hall");
-  }
-
-  await prisma.hall.update({
-    where: { id },
-    data: {
-      isDeleted: false,
-      deletedAt: null,
-    },
-  });
-
-  return { message: "Hall restored successfully" };
-};
-

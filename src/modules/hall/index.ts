@@ -1,4 +1,6 @@
-import { router as hallRouter } from "./hallRoutes";
+import { router as hallRouter } from "@/modules/hall/hallRoutes";
+
+
 
 
 
