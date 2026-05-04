@@ -2,7 +2,9 @@ rules
 
 In Call DB always check if isDeleted is true then return error that hall is deleted or not found 
 
-In Call DB for create object or update always take the propertis of model that we check or validated  for it and ignore the rest  
+In Call DB for create object or update always take the propertis of model that we check or validated  for it and ignore the rest  like this   const { prop1,prop2, prop3 } = data;
+and passing it like { prop1,prop2, prop3 }
+
 
 
 
