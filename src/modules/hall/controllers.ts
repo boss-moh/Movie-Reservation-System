@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import * as HallService from "./services";
+import * as HallService from "@/modules/hall/services";
 import { RequestWithId } from "@/types";
 
 
