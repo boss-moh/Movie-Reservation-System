@@ -29,6 +29,17 @@ enum Role {
   ADMIN
 }
 
+enum Status {
+  AVAILABLE
+  MAINTENANCE
+  UNAVAILABLE
+}
+
+enum SeatType {
+  STANDARD
+  VIP
+}
+
 model Movie {
   id              String     @id @default(uuid())
   title           String
@@ -49,17 +60,14 @@ model Hall {
   seats       Seat[]
   showtimes   Showtime[]
 
-  isDeleted Boolean   @default(false)
-  deletedAt DateTime?
+  status Status @default(AVAILABLE)
 }
 
 model Seat {
   id            String         @id @default(uuid())
   hallId        String
   hall          Hall           @relation(fields: [hallId], references: [id])
-  row           String // e.g., "A"
-  number        Int // e.g., 5
-  type          String         @default("STANDARD") // e.g., "VIP", "STANDARD"
+  type          SeatType         @default(STANDARD) // e.g., "VIP", "STANDARD"
   reservedSeats ReservedSeat[]
 
   isDeleted Boolean   @default(false)
