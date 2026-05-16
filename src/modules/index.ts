@@ -3,6 +3,7 @@ import { router as movieRouter } from "@/modules/movie";
 import { router as authRouter } from "@/modules/auth";
 import { router as userRouter } from "@/modules/user";
 import { hallRouter } from "@/modules/hall";
+import { showtimeRouter } from "@/modules/showtime";
 
 import { Router } from "express";
 
@@ -12,5 +13,6 @@ router.use(PATHS.AUTH.BASE, authRouter);
 router.use(PATHS.MOVIE.BASE, movieRouter);
 router.use(PATHS.USER.BASE, userRouter);
 router.use(PATHS.HALL.BASE, hallRouter);
+router.use(PATHS.SHOWTIME.BASE, showtimeRouter);
 
 export default router;

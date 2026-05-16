@@ -1,9 +1,9 @@
 # 🎬 Movie Reservation System - High Level Todo List
 
-- [ ] **Phase 1: Project Setup & Foundation**
+- [x ] **Phase 1: Project Setup & Foundation**
   - Initialize the Node/Express app, install dependencies, and set up `.env` configuration.
 
-- [ ] **Phase 2: Database & Models**
+- [x ] **Phase 2: Database & Models**
   - Set up ORM (Prisma or Sequelize) and define all SQL tables (Users, Movies, Halls, Seats, Reservations, etc.).
 
 - [ ] **Phase 3: Initial Data Seeding**
