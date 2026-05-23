@@ -4,17 +4,15 @@ on:
   push:
     branches:
       - main # Runs the workflow on push to the main branch
+      - testing
   pull_request:
     branches:
       - main # Runs the workflow on pull request to the main branch
 
-# Only run when a PR is actually merged (not just closed)
 jobs:
-  # ─────────────────────────────────────────
-  # STAGE 1 — Install & Cache
-  # ─────────────────────────────────────────
-  install:
-    name: 📦 Install Dependencies
+
+  setup:
+    name: ⚙️ Setup & Install
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,83 +22,46 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-
+          
       - name: Install dependencies
-        run: npm ci
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-
- 
-  db-generate:
-    name: 🏗️ Generate Prisma Client
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-
-      - name: Generate Prisma Client
-        run: npm run db:generate
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-
-      - name: Upload generated client
-        uses: actions/upload-artifact@v4
-        with:
-          name: generated-prisma-client
-          path: generated/prisma/
-          retention-days: 7
-
-  # ─────────────────────────────────────────
-  # STAGE 2 — Lint & Format
-  # ─────────────────────────────────────────
-  lint:
-    name: 🔍 Lint & Format Check
-    runs-on: ubuntu-latest
-    needs: install 
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+        shell: bash
+        run: npm install
 
       - name: Run ESLint
+        shell: bash
         run: npm run lint
-        # Tip: add "lint": "eslint . --ext .js" to your package.json scripts
 
-  # ─────────────────────────────────────────
-  # STAGE 3 — Tests
-  # ─────────────────────────────────────────
+
+ 
   test:
     name: 🧪 Run Tests
     runs-on: ubuntu-latest
-    needs: [install, lint, db-generate]
+    needs: [setup]
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: "testuser"
+          POSTGRES_PASSWORD: "testpass"
+          POSTGRES_DB: "testdb"
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: "postgresql://testuser:testpass@localhost:5432/testdb"
+      PORT: 3000
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
+      SALT_ROUNDS: ${{ secrets.SALT_ROUNDS }}
+
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -108,51 +69,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          
+      - name: Install dependencies
+        shell: bash
+        run: npm install
 
-      - name: Restore node_modules cache
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-
-      # 🟢 CRITICAL STEP: Re-generate the client on this specific runner
+          
       - name: Generate Prisma Client
-        run: npx prisma generate
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npm run db:generate
 
-      - name: Run tests with coverage
-        run: npm test 
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          PORT: ${{ secrets.PORT }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_REFRESH_SECRET: ${{ secrets.JWT_REFRESH_SECRET }}
-          SALT_ROUNDS: ${{ secrets.SALT_ROUNDS }}
+      - name: Run migrations
+        run: npm run db:migrate:deploy
 
+      - name: Seed database
+        run: npm run seed
 
-  # ─────────────────────────────────────────
-  # STAGE 4 — Security Audit
-  # ─────────────────────────────────────────
-  # security:
-  #   name: 🔒 Security Audit
-  #   runs-on: ubuntu-latest
-  #   needs: test
-  #   steps:
-  #     - uses: actions/checkout@v4
-
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '20'
-  #         cache: 'npm'
-
-  #     - name: Restore cache
-  #       uses: actions/cache@v4
-  #       with:
-  #         path: node_modules
-  #         key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-
-  #     - name: Audit dependencies
-  #       run: npm audit --audit-level=high
-  #       # Fails the pipeline if any HIGH or CRITICAL vulnerabilities are found
+      - name: Run tests
+        run: npm test

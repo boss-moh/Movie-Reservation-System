@@ -1,3 +1,4 @@
+import { userDTO } from "@/types";
 import { User } from "@generated/prisma/client";
 
 /**
@@ -21,9 +22,21 @@ export interface LoginDTO {
  * Standard response structure for an authenticated user.
  * Excludes sensitive fields like hashPassword and keyForHashing.
  */
-export interface AuthResponseDTO {
+export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   user: User
 
+}
+
+
+export interface accessToken {
+  accessToken: string;
+}
+
+
+export interface AuthResponseDTO {
+   accessToken: string;
+  refreshToken: string;
+  user: userDTO
 }

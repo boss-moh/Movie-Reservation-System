@@ -1,16 +1,7 @@
-// @/test (your singleton/mock setup file)
-import { mockDeep, mockReset } from 'vitest-mock-extended';
-import { beforeEach, vi } from 'vitest';
-import { PrismaClient } from '@generated/prisma/client';
+import { afterAll } from "vitest";
 
-const prisma = mockDeep<PrismaClient>();
+import { prisma  } from '@/libs/prisma/config';
 
-vi.mock('@/libs/prisma', () => ({
-  prisma,
-}));
-
-beforeEach(() => {
-  mockReset(prisma);
+afterAll(async () => {
+  await prisma.$disconnect();
 });
-
-export { prisma as prismaMock };

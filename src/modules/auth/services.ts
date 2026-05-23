@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { prisma } from "@/libs/prisma"; // Assuming you exported prisma client here
+import { prisma } from "@/libs/prisma/config"; // Assuming you exported prisma client here
 import { RegisterDTO, LoginDTO } from "./type";
 
 import { JWT_REFRESH_SECRET, JWT_SECRET } from "@/config";

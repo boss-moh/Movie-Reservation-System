@@ -1,4 +1,4 @@
-import { Hall, Status } from "@generated/prisma/browser";
+import { Hall, Status,Seat } from "@generated/prisma/browser";
 
 
 
@@ -11,3 +11,7 @@ export type UpdateHallDTO = Partial<CreateHallDTO>;
 
 
 
+
+export type HallWithSeats = Hall & {
+  seats: Seat[]
+}
