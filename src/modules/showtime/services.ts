@@ -204,12 +204,12 @@ export const deleteShowtime = async (id: string) => {
     throw createNotExitError("Showtime");
   }
 
-  await prisma.showtime.update({
+ const newShowTime =  await prisma.showtime.update({
     where: { id },
     data: { isDeleted: true, deletedAt: new Date() },
   });
 
-  return { message: "Showtime deleted successfully" };
+  return newShowTime;
 };
 
 export const restoreShowtime = async (id: string) => {
@@ -220,12 +220,12 @@ export const restoreShowtime = async (id: string) => {
   }
 
 
-  await prisma.showtime.update({
+  const newShowTime = await prisma.showtime.update({
     where: { id },
     data: { isDeleted: false, deletedAt: null },
   });
 
-  return { message: "Showtime restored successfully" };
+  return newShowTime;
 };
 
 

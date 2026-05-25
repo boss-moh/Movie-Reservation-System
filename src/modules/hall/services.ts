@@ -11,7 +11,7 @@ export const createHall = async (data: CreateHallDTO) => {
 
 
 
-  return prisma.hall.create({
+  const hall =  prisma.hall.create({
     data: {
       name,
       seatsNumber,
@@ -20,17 +20,23 @@ export const createHall = async (data: CreateHallDTO) => {
         create: Array(seatsNumber).fill({})
       }
     },
-    include: {
-      _count: {
-        select: { seats: true }
-      }
+      include: {
+      seats: true,
     }
   });
+  
+  return hall;
 };
 
 export const getAllHalls = async () => {
-  return prisma.hall.findMany();
-};
+ const halls = await prisma.hall.findMany({
+    include: {
+      seats: true,
+    }
+  })
+  
+  return halls
+  };
 
 export const getHallById = async (id: string) => {
   const hall = await prisma.hall.findUnique({
