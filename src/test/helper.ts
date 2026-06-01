@@ -1,76 +1,58 @@
+// src/tests/helpers/db.ts
+
 import app from "@/app";
+import { prisma } from "@/libs/prisma/config";
+import { adminUser, clientUser } from "@/libs/prisma";
+import { Prisma } from "@generated/prisma/client";
 import request from "supertest";
 
-import { getHashPassword } from "@/utils";
-import { Role } from "@generated/prisma/enums";
-import { prismaMock } from "@/test";
-import { User } from "@generated/prisma/client";
-
-const validUUID = "123e4567-e89b-12d3-a456-426614174000";
-const invalidUUID = "not-a-uuid";
-
-const clientAdmin = {
-    id: "admin-1",
-    name: "Admin",
-    email: "admin@test.com",
-    password: "adminpassword",
-};
-
-const DBAdmin: User = {
-    ...clientAdmin,
-    role: Role.ADMIN,
-    hashPassword: "",
-    keyForHashing: "",
-    createdAt: new Date(),
-    deletedAt: null,
-    isDeleted: false,
-};
-
-const clientUser = {
-    id: "user-1",
-    name: "User",
-    email: "user@test.com",
-    password: "userpassword",
-};
-
-const DBUser: User = {
-    ...clientUser,
-    role: Role.USER,
-    hashPassword: "",
-    keyForHashing: "",
-    createdAt: new Date(),
-    deletedAt: null,
-    isDeleted: false,
-
-};
+const ERR_ROLLBACK = "__ROLLBACK__";
 
 
+export async function withTestTransaction<T>(
+  fn: (tx: Prisma.TransactionClient) => Promise<T>,
+): Promise<T> {
+  let result: T | undefined;
 
+  try {
+    // 1. Await the entire Prisma transaction block
+    await prisma.$transaction(
+      async (tx) => {
+        result = await fn(tx);
 
-async function getAuthToken(userLogin: { email: string, password: string }, userDB: User) {
-    prismaMock.user.findUnique.mockResolvedValueOnce({
-        ...userDB,
-        hashPassword: await getHashPassword(userLogin.password),
-    });
-    const res = await request(app).post("/api/auth/login").send(userLogin);
-    return res.body.accessToken;
+        // Always throw to force the rollback *inside* the transaction lifecycle
+        throw new Error(ERR_ROLLBACK);
+        
+      },
+      {
+        isolationLevel:"Serializable"
+      }
+    );
+  } catch (err) {
+    // 2. Catch the expected rollback error and do nothing (swallow it)
+    if (err instanceof Error && err.message === ERR_ROLLBACK) {
+      // If we caught our rollback, it means `result` was successfully populated
+      return result as T;
+    }
+
+    // 3. If it's a real database error, re-throw it so your test fails properly
+    throw err;
+  }
+
+  throw new Error("Transaction ended unexpectedly without rolling back.");
 }
 
+export const getAdminToken = async () => {
+  const res = await request(app).post("/api/auth/login").send(adminUser);
+  return res.body.response.data.accessToken;
+};
 
-const getTokenUser = async () => await getAuthToken(clientUser, DBUser);
+export const getClientToken = async () => {
+  const res = await request(app).post("/api/auth/login").send(clientUser);
+  return res.body.response.data.accessToken;
+};
 
-const getTokenAdmin = async () => await getAuthToken(clientAdmin, DBAdmin);
+const invalidID = "0000-0000-0000-000000000000";
+const nonExistentID = "00000000-0000-0000-0000-000000000000";
 
-const helpers = {
-    clientAdmin,
-    DBAdmin,
-    clientUser,
-    DBUser,
-    getAuthToken,
-    getTokenAdmin,
-    getTokenUser,
-    validUUID,
-    invalidUUID
-}
-
-export { helpers }
+export { adminUser, clientUser, invalidID, nonExistentID };

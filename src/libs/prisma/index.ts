@@ -1,12 +1,3 @@
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "@generated/prisma/client"; 
-import { DATABASE_URL } from "@/config";
-
-const connectionString = DATABASE_URL;
-
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
-
-export { prisma };
-
-export default prisma;
+export * from "@/libs/prisma/config";
+export * from "@/libs/prisma/seed";
+export * from "@/libs/prisma/constants";

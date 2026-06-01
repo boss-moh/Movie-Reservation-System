@@ -1,4 +1,4 @@
-import { prisma } from "@/libs/prisma";
+import { prisma } from "@/libs/prisma/config";
 import { createNotExitError } from "@/errors";
 import { Role } from "@generated/prisma/enums";
 

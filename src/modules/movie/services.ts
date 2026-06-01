@@ -1,4 +1,4 @@
-import { prisma } from "@/libs/prisma";
+import { prisma } from "@/libs/prisma/config";
 import CustomError from "@/errors/CustomError";
 import { CreateMovieDTO, UpdateMovieDTO } from "./type";
 

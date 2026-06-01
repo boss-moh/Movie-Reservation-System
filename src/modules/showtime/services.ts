@@ -1,4 +1,4 @@
-import { prisma } from "@/libs/prisma";
+import { prisma } from "@/libs/prisma/config";
 import { createNotExitError, CustomError } from "@/errors";
 import { CreateShowtimeDTO, UpdateShowtimeDTO, FreeSlot } from "@/modules/showtime/type";
 
@@ -122,7 +122,6 @@ export const updateShowtime = async (showtimeId: string, data: UpdateShowtimeDTO
       return await prisma.$transaction(async (prisma) => {
 
         const isThereFreeSlotForShowTime = await checkThereFreeSlotForShowTime(showtimeOldData.hallId, new Date(startTime!), showtimeOldData.movie.durationMinutes, showtimeId)
-        console.log(isThereFreeSlotForShowTime, "isThereFreeSlotForShowTime")
         if (!isThereFreeSlotForShowTime) throw new CustomError({
           message: `there are no free slot for this showtime with time ${startTime}`,
           statusCode: 409

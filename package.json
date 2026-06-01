@@ -4,7 +4,7 @@
   "description": "A backend system for a movie reservation service. The service will allow users to sign up, log in, browse movies, reserve seats for specific showtimes, and manage their reservations. The system will feature user authentication, movie and showtime management, seat reservation functionality, and reporting on reservations.",
   "main": "index.js",
   "scripts": {
-    "test": "vitest",
+    "test": "vitest run",
     "lint": "eslint src",
     "lint:fix": "eslint src/ --fix",
     "dev": "ts-node-dev --respawn   --require tsconfig-paths/register src/server.ts ",
@@ -13,6 +13,7 @@
     "seed": "ts-node   --require tsconfig-paths/register src/seed.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "db:push": "prisma db push",
     "db:studio": "prisma studio"
   },
