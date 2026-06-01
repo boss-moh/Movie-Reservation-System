@@ -43,6 +43,16 @@ export const PATHS = {
     GET_SEATS: "/:id/seats",
     FREE_SLOTS: "/free-slots",
     OCCUPIED_SLOTS: "/occupied-slots",
+  },
+  SEAT: {
+    BASE: "/seats",
+    CREATE: "",
+    GET_ALL: "",
+    GET_BY_ID: "/:seatId",
+    UPDATE: "/:seatId",
+    DELETE: "/:seatId",
+    RESTORE: "/:seatId/restore",
+    GET_BY_HALL: "/hall/:id",
   }
 
 } as const
