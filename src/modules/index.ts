@@ -4,6 +4,7 @@ import { router as authRouter } from "@/modules/auth";
 import { router as userRouter } from "@/modules/user";
 import { hallRouter } from "@/modules/hall";
 import { showtimeRouter } from "@/modules/showtime";
+import { router as seatRouter } from "@/modules/seat";
 
 import { Router } from "express";
 
@@ -14,5 +15,6 @@ router.use(PATHS.MOVIE.BASE, movieRouter);
 router.use(PATHS.USER.BASE, userRouter);
 router.use(PATHS.HALL.BASE, hallRouter);
 router.use(PATHS.SHOWTIME.BASE, showtimeRouter);
+router.use(PATHS.SEAT.BASE, seatRouter);
 
 export default router;
