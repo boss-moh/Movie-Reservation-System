@@ -40,6 +40,12 @@ enum SeatType {
   VIP
 }
 
+enum ReservationStatus {
+  PENDING
+  ACTIVE
+  CANCELLED
+}
+
 model Movie {
   id              String     @id @default(uuid())
   title           String
@@ -67,7 +73,7 @@ model Seat {
   id            String         @id @default(uuid())
   hallId        String
   hall          Hall           @relation(fields: [hallId], references: [id])
-  type          SeatType         @default(STANDARD) // e.g., "VIP", "STANDARD"
+  type          SeatType       @default(STANDARD) // e.g., "VIP", "STANDARD"
   reservedSeats ReservedSeat[]
 
   isDeleted Boolean   @default(false)
@@ -86,18 +92,21 @@ model Showtime {
 
   isDeleted Boolean   @default(false)
   deletedAt DateTime?
+
+
+  reservedSeats ReservedSeat[]
 }
 
 model Reservation {
-  id            String         @id @default(uuid())
+  id            String            @id @default(uuid())
   totalPrice    Float
-  status        String         @default("PENDING") // e.g., "ACTIVE", "CANCELLED"
+  status        ReservationStatus @default(PENDING)
   userId        String
-  user          User           @relation(fields: [userId], references: [id])
+  user          User              @relation(fields: [userId], references: [id])
   showtimeId    String
-  showtime      Showtime       @relation(fields: [showtimeId], references: [id])
+  showtime      Showtime          @relation(fields: [showtimeId], references: [id])
   reservedSeats ReservedSeat[]
-  createdAt     DateTime       @default(now())
+  createdAt     DateTime          @default(now())
 
   isDeleted Boolean   @default(false)
   deletedAt DateTime?
@@ -106,13 +115,19 @@ model Reservation {
 // Explicit many-to-many join table for Reservations and Seats
 model ReservedSeat {
   id            String      @id @default(uuid())
+
   reservationId String
   reservation   Reservation @relation(fields: [reservationId], references: [id])
+
   seatId        String
   seat          Seat        @relation(fields: [seatId], references: [id])
+
+  showtimeId    String
+  showtime      Showtime    @relation(fields: [showtimeId], references: [id])
 
   isDeleted Boolean   @default(false)
   deletedAt DateTime?
 
-  @@unique([reservationId, seatId]) // A seat can't be booked twice in the same reservation
+  @@unique([seatId, showtimeId]) // ✅ same seat can't be booked twice for the same showtime
+  @@index([showtimeId])  
 }
