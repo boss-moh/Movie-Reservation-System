@@ -54,6 +54,14 @@ export const PATHS = {
     RESTORE: "/:seatId/restore",
     GET_BY_HALL: "/hall/:id",
   }
+  ,
+  RESERVATION: {
+    BASE: "/reservations",
+    CREATE: "",
+    GET_ALL: "",
+    GET_BY_ID: "/:id",
+    DELETE: "/:id",
+  },
 
 } as const
 

@@ -113,39 +113,39 @@ async function seed() {
 
     // Create Reservations and Reserved Seats
     console.log("Seeding Reservations...");
-    for (let i = 0; i < 10; i++) {
-      const user = faker.helpers.arrayElement(users);
-      const showtime = faker.helpers.arrayElement(showtimes);
+    // for (let i = 0; i < 10; i++) {
+    //   const user = faker.helpers.arrayElement(users);
+    //   const showtime = faker.helpers.arrayElement(showtimes);
 
-      // Find seats for the showtime's hall
-      const hallSeats = seats.filter((s) => s.hallId === showtime.hallId);
-      const selectedSeats = faker.helpers.arrayElements(
-        hallSeats,
-        faker.number.int({ min: 1, max: 4 }),
-      );
+    //   // Find seats for the showtime's hall
+    //   const hallSeats = seats.filter((s) => s.hallId === showtime.hallId);
+    //   const selectedSeats = faker.helpers.arrayElements(
+    //     hallSeats,
+    //     faker.number.int({ min: 1, max: 4 }),
+    //   );
 
-      const reservation = await prisma.reservation.create({
-        data: {
-          totalPrice: showtime.priceForSeat * selectedSeats.length,
-          status: "ACTIVE",
-          userId: user.id,
-          showtimeId: showtime.id,
-        },
-      });
+    //   const reservation = await prisma.reservation.create({
+    //     data: {
+    //       totalPrice: showtime.priceForSeat * selectedSeats.length,
+    //       status: "ACTIVE",
+    //       userId: user.id,
+    //       showtimeId: showtime.id,
+    //     },
+    //   });
 
-      for (const seat of selectedSeats) {
-        try {
-          await prisma.reservedSeat.create({
-            data: {
-              reservationId: reservation.id,
-              seatId: seat.id,
-            },
-          });
-        } catch {
-          // Ignore unique constraint errors for duplicate seat bookings in seed
-        }
-      }
-    }
+    //   for (const seat of selectedSeats) {
+    //     try {
+    //       await prisma.reservedSeat.create({
+    //         data: {
+    //           reservationId: reservation.id,
+    //           seatId: seat.id,
+    //         },
+    //       });
+    //     } catch {
+    //       // Ignore unique constraint errors for duplicate seat bookings in seed
+    //     }
+    //   }
+    // }
 
     console.log("✅ Seeding completed successfully!");
   } catch (err) {

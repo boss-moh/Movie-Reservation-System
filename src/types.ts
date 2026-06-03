@@ -3,7 +3,8 @@ import { User } from "./prisma/client";
 
 export type userDTO = Pick<User, "id" | "email" | "name" | "role">;
 
-export type RequestWithUser = Request & { user?: userDTO };
+export type userToken = Pick<User, "id"| "role">
+export type RequestWithUser = Request & { user?: userToken };
 
 export type RequestWithId = Request & { params: { id: string } };
 
