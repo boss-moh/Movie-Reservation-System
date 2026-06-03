@@ -1,14 +1,15 @@
 import { Response } from "express";
 import * as ReservationService from "./services";
 import { ApiResponse, RequestWithID, RequestWithUser } from "@/types";
-import { CreateReservationDTO, ReservationWithDetails } from "./type";
+import { CreateReservationDTO, SingleReservation } from "./type";
 
 export const createReservationController = async (
   req: RequestWithUser,
-  res: Response<ApiResponse<ReservationWithDetails>>,
+  res: Response<ApiResponse<SingleReservation>>,
 ) => {
   const data = req.body as CreateReservationDTO;
   const user = req.user!;
+  console.log(user)
 
   const reservation = await ReservationService.createReservation(data, user.id);
 
@@ -24,7 +25,7 @@ export const createReservationController = async (
 
 export const getAllReservationsController = async (
   req: RequestWithUser,
-  res: Response<ApiResponse<ReservationWithDetails[]>>,
+  res: Response<ApiResponse<SingleReservation[]>>,
 ) => {
   const user = req.user!;
   const reservations = await ReservationService.getAllReservations(user.id, user.role === "ADMIN");
@@ -41,7 +42,7 @@ export const getAllReservationsController = async (
 
 export const getReservationByIdController = async (
   req: RequestWithID,
-  res: Response<ApiResponse<ReservationWithDetails>>,
+  res: Response<ApiResponse<SingleReservation>>,
 ) => {
   const user = (req as RequestWithUser).user!;
   const { id } = req.params;
@@ -60,7 +61,7 @@ export const getReservationByIdController = async (
 
 export const cancelReservationController = async (
   req: RequestWithID,
-  res: Response<ApiResponse<ReservationWithDetails>>,
+  res: Response<ApiResponse<SingleReservation>>,
 ) => {
   const user = (req as RequestWithUser).user!;
   const { id } = req.params;

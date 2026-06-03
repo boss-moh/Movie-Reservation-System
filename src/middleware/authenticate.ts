@@ -2,7 +2,7 @@ import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { createunauthenticateError } from "@/errors";
 import { JWT_SECRET } from "@/config";
-import { RequestWithUser, userDTO } from "@/types";
+import { RequestWithUser, userToken } from "@/types";
 
 export const authenticate = (
   req: RequestWithUser,
@@ -15,8 +15,12 @@ export const authenticate = (
       throw createunauthenticateError();
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET) as userDTO ;
-    req.user = decoded;
+    const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+    req.user = {
+      id: decoded.sub,
+      role: decoded.role,
+     } as userToken;
+
     next();
  
 };
